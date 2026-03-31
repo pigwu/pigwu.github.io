@@ -16,6 +16,7 @@ redirect_from:
     <h1>Yunzhi WU</h1>
     <p class="about-intro">
       I am an undergraduate student at Westlake University, based in Hangzhou, China.
+      I am advised by <strong>Anpei Chen</strong> in the <strong>Inception 3D Lab</strong>.
       My research centers on <strong>world models</strong> and
       <strong>physical interaction driven by computer vision</strong>.
       I am excited by the idea of building agents that can understand dynamics, anticipate outcomes, and interact with the physical world in a grounded way.
@@ -47,7 +48,6 @@ redirect_from:
 
   <section class="about-panel reveal">
     <h2>Personal Best Dashboard</h2>
-    <p class="panel-note">Update the values in the front matter of <code>_pages/about.md</code> to show your latest records.</p>
     <div class="pb-grid">
       <article class="pb-card">
         <p class="pb-label">5K Personal Best</p>

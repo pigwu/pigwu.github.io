@@ -23,10 +23,10 @@ repository               : "pigwu.github.io"
 #               Additional customization can be done by editing /_includes/author-profile.html
 author:
   # Biographic information
-  avatar           : "profile.png"
+  avatar           : "avatar-yunzhi.jpg"
   name             : "Yunzhi WU"
   #pronouns         : # example: "she/her"  
-  bio              : "Undergraduate researcher focused on world models and vision-based physical interaction."
+  bio              : "Undergraduate researcher in the Inception 3D Lab, advised by Anpei Chen. Focused on world models and vision-based physical interaction."
   location         : "Hangzhou, China"
   employer         : "Westlake University"
   uri              : # URL
