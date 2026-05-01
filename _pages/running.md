@@ -151,7 +151,7 @@ author_profile: true
 
 .races-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   gap: 2rem;
 }
 
@@ -170,7 +170,7 @@ author_profile: true
 
 .race-image {
   width: 100%;
-  height: 250px;
+  height: 350px;
   overflow: hidden;
 }
 
@@ -184,8 +184,9 @@ author_profile: true
 .race-image-carousel {
   position: relative;
   width: 100%;
-  height: 250px;
+  height: 350px;
   overflow: hidden;
+  background: #f5f5f5;
 }
 
 .race-images {
@@ -212,15 +213,16 @@ author_profile: true
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.7);
   color: white;
   border: none;
-  padding: 0.5rem 0.8rem;
+  padding: 0.8rem 1rem;
   cursor: pointer;
   opacity: 0;
   transition: opacity 0.3s ease;
   z-index: 10;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
+  border-radius: 4px;
 }
 
 .race-image-carousel:hover .carousel-btn {
@@ -228,15 +230,15 @@ author_profile: true
 }
 
 .carousel-btn:hover {
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.9);
 }
 
 .carousel-btn.prev {
-  left: 0.5rem;
+  left: 1rem;
 }
 
 .carousel-btn.next {
-  right: 0.5rem;
+  right: 1rem;
 }
 
 .race-details {
@@ -319,8 +321,8 @@ author_profile: true
   // Image carousel functionality
   document.querySelectorAll('.race-image-carousel').forEach(function(carousel) {
     var images = carousel.querySelectorAll('.race-images img');
-    var prevBtn = carousel.querySelector('.prev');
-    var nextBtn = carousel.querySelector('.next');
+    var prevBtn = carousel.querySelector('.carousel-btn.prev');
+    var nextBtn = carousel.querySelector('.carousel-btn.next');
     var currentIndex = 0;
 
     if (images.length <= 1) {
@@ -330,21 +332,28 @@ author_profile: true
     }
 
     function showImage(index) {
-      images.forEach(function(img) { img.classList.remove('active'); });
+      images.forEach(function(img, i) { 
+        img.classList.remove('active');
+      });
       images[index].classList.add('active');
+      currentIndex = index;
     }
 
     if (prevBtn) {
-      prevBtn.addEventListener('click', function() {
-        currentIndex = (currentIndex - 1 + images.length) % images.length;
-        showImage(currentIndex);
+      prevBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var newIndex = (currentIndex - 1 + images.length) % images.length;
+        showImage(newIndex);
       });
     }
 
     if (nextBtn) {
-      nextBtn.addEventListener('click', function() {
-        currentIndex = (currentIndex + 1) % images.length;
-        showImage(currentIndex);
+      nextBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var newIndex = (currentIndex + 1) % images.length;
+        showImage(newIndex);
       });
     }
   });
