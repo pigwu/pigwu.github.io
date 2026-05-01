@@ -9,34 +9,43 @@
     localStorage.setItem('language', lang);
     document.documentElement.setAttribute('lang', lang);
 
-    // Update all elements with data-en and data-zh attributes
     document.querySelectorAll('[data-en][data-zh]').forEach(function(el) {
-      if (lang === 'zh') {
-        el.textContent = el.getAttribute('data-zh');
-      } else {
-        el.textContent = el.getAttribute('data-en');
+      var enText = el.getAttribute('data-en');
+      var zhText = el.getAttribute('data-zh');
+      if (lang === 'zh' && zhText) {
+        el.textContent = zhText;
+      } else if (enText) {
+        el.textContent = enText;
       }
     });
 
-    // Update language toggle button
     var langText = document.getElementById('lang-text');
     if (langText) {
       langText.textContent = lang === 'zh' ? 'CN' : 'EN';
     }
   }
 
-  // Initialize language on page load
-  document.addEventListener('DOMContentLoaded', function() {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      setLanguage(currentLang);
+      var langToggle = document.getElementById('lang-toggle');
+      if (langToggle) {
+        langToggle.addEventListener('click', function(e) {
+          e.preventDefault();
+          setLanguage(currentLang === 'en' ? 'zh' : 'en');
+        });
+      }
+    });
+  } else {
     setLanguage(currentLang);
-
-    // Add click handler for language toggle
     var langToggle = document.getElementById('lang-toggle');
     if (langToggle) {
-      langToggle.addEventListener('click', function() {
+      langToggle.addEventListener('click', function(e) {
+        e.preventDefault();
         setLanguage(currentLang === 'en' ? 'zh' : 'en');
       });
     }
-  });
+  }
 })();
 </script>
 
