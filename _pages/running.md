@@ -45,15 +45,21 @@ author_profile: true
     <h2 data-en="Trail Running Races" data-zh="越野跑比赛">Trail Running Races</h2>
     <div class="races-grid" id="trail-races">
       <article class="race-card">
-        <div class="race-image">
-          <img src="/images/races/dongmingshan-running.jpg" alt="Dongmingshan Trail Race">
+        <div class="race-image-carousel">
+          <div class="race-images">
+            <img src="/images/races/dongmingshan-running.jpg" alt="Dongmingshan Trail Race" class="active">
+            <img src="/images/races/dongmingshan-finish.jpg" alt="Dongmingshan Finish">
+            <img src="/images/races/dongmingshan-map.jpg" alt="Dongmingshan Route">
+          </div>
+          <button class="carousel-btn prev" aria-label="Previous image">&larr;</button>
+          <button class="carousel-btn next" aria-label="Next image">&rarr;</button>
         </div>
         <div class="race-details">
           <h3 class="race-name" data-en="Dongmingshan Trail Race" data-zh="东明山越野赛">Dongmingshan Trail Race</h3>
           <p class="race-date" data-en="Date: 2026-04-26" data-zh="日期：2026-04-26">Date: 2026-04-26</p>
           <p class="race-time" data-en="Time: 3:35:23" data-zh="成绩：3:35:23">Time: 3:35:23</p>
           <p class="race-distance" data-en="Distance: 20.94km, Elevation: 1116m" data-zh="距离：20.94公里，爬升：1116米">Distance: 20.94km, Elevation: 1116m</p>
-          <p class="race-notes" data-en="Average pace: 10'17\"/km" data-zh="平均配速：10'17\"/公里">Average pace: 10'17"/km</p>
+          <p class="race-pace" data-en="Average pace: 10'17&quot;/km" data-zh="平均配速：10'17&quot;/公里">Average pace: 10'17"/km</p>
         </div>
       </article>
       <!-- Example: Trail race from your photos -->
@@ -164,14 +170,73 @@ author_profile: true
 
 .race-image {
   width: 100%;
-  height: 200px;
+  height: 250px;
   overflow: hidden;
 }
 
 .race-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
+}
+
+.race-image-carousel {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+}
+
+.race-images {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.race-images img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.race-images img.active {
+  opacity: 1;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+  font-size: 1.2rem;
+}
+
+.race-image-carousel:hover .carousel-btn {
+  opacity: 1;
+}
+
+.carousel-btn:hover {
+  background: rgba(0,0,0,0.8);
+}
+
+.carousel-btn.prev {
+  left: 0.5rem;
+}
+
+.carousel-btn.next {
+  right: 0.5rem;
 }
 
 .race-details {
@@ -250,5 +315,38 @@ author_profile: true
 
   var pbGrid = document.querySelector(".pb-grid");
   if (pbGrid) observer.observe(pbGrid);
+
+  // Image carousel functionality
+  document.querySelectorAll('.race-image-carousel').forEach(function(carousel) {
+    var images = carousel.querySelectorAll('.race-images img');
+    var prevBtn = carousel.querySelector('.prev');
+    var nextBtn = carousel.querySelector('.next');
+    var currentIndex = 0;
+
+    if (images.length <= 1) {
+      if (prevBtn) prevBtn.style.display = 'none';
+      if (nextBtn) nextBtn.style.display = 'none';
+      return;
+    }
+
+    function showImage(index) {
+      images.forEach(function(img) { img.classList.remove('active'); });
+      images[index].classList.add('active');
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function() {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        showImage(currentIndex);
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function() {
+        currentIndex = (currentIndex + 1) % images.length;
+        showImage(currentIndex);
+      });
+    }
+  });
 })();
 </script>
