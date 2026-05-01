@@ -1,3 +1,43 @@
 <script type="module" src="{{ base_path }}/assets/js/main.min.js"></script>
 
+<script>
+(function() {
+  var currentLang = localStorage.getItem('language') || 'en';
+
+  function setLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('language', lang);
+    document.documentElement.setAttribute('lang', lang);
+
+    // Update all elements with data-en and data-zh attributes
+    document.querySelectorAll('[data-en][data-zh]').forEach(function(el) {
+      if (lang === 'zh') {
+        el.textContent = el.getAttribute('data-zh');
+      } else {
+        el.textContent = el.getAttribute('data-en');
+      }
+    });
+
+    // Update language toggle button
+    var langText = document.getElementById('lang-text');
+    if (langText) {
+      langText.textContent = lang === 'zh' ? 'CN' : 'EN';
+    }
+  }
+
+  // Initialize language on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    setLanguage(currentLang);
+
+    // Add click handler for language toggle
+    var langToggle = document.getElementById('lang-toggle');
+    if (langToggle) {
+      langToggle.addEventListener('click', function() {
+        setLanguage(currentLang === 'en' ? 'zh' : 'en');
+      });
+    }
+  });
+})();
+</script>
+
 {% include analytics.html %}
