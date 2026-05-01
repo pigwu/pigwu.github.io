@@ -25,8 +25,9 @@ author:
   # Biographic information
   avatar           : "avatar-yunzhi.jpg"
   name             : "Yunzhi WU"
-  #pronouns         : # example: "she/her"  
+  #pronouns         : # example: "she/her"
   bio              : "Undergraduate researcher in the Inception 3D Lab, advised by Anpei Chen. Focused on world models and vision-based physical interaction."
+  bio_zh           : "西湖大学本科生，在Inception 3D实验室接受陈安培指导。专注于世界模型和基于视觉的物理交互。"
   location         : "Hangzhou, China"
   employer         : "Westlake University"
   uri              : # URL

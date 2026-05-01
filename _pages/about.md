@@ -43,6 +43,17 @@ redirect_from:
       </article>
     </div>
   </section>
+
+  <section class="about-panel reveal">
+    <h2 data-en="Recent Work" data-zh="近期工作">Recent Work</h2>
+    <article class="project-card">
+      <h3 data-en="ARPoseStreamer" data-zh="ARPoseStreamer">ARPoseStreamer</h3>
+      <p data-en="A real-time AR pose streaming system that captures and transmits human pose data from iOS devices. This project enables seamless integration of AR-based pose estimation for research and interactive applications." data-zh="一个实时AR姿态流传输系统，可从iOS设备捕获并传输人体姿态数据。该项目为研究和交互应用提供了基于AR的姿态估计无缝集成。">
+        A real-time AR pose streaming system that captures and transmits human pose data from iOS devices. This project enables seamless integration of AR-based pose estimation for research and interactive applications.
+      </p>
+      <a href="https://github.com/pigwu/ARPoseStreamer" target="_blank" class="project-link" data-en="View on GitHub →" data-zh="在GitHub上查看 →">View on GitHub →</a>
+    </article>
+  </section>
 </div>
 
 <script>
@@ -61,3 +72,30 @@ redirect_from:
     });
   })();
 </script>
+
+<style>
+.project-card {
+  background: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.project-card h3 {
+  margin-top: 0;
+  color: var(--link-color);
+}
+
+.project-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: var(--link-color);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.project-link:hover {
+  text-decoration: underline;
+}
+</style>
