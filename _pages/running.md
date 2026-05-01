@@ -214,7 +214,7 @@ author_profile: true
       if (!totalSeconds) return;
 
       var start = null;
-      var duration = 1200;
+      var duration = 3000;
 
       function step(timestamp) {
         if (!start) start = timestamp;
