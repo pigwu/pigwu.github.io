@@ -44,6 +44,18 @@ author_profile: true
   <section class="race-section">
     <h2 data-en="Trail Running Races" data-zh="越野跑比赛">Trail Running Races</h2>
     <div class="races-grid" id="trail-races">
+      <article class="race-card">
+        <div class="race-image">
+          <img src="/images/races/dongmingshan-running.jpg" alt="Dongmingshan Trail Race">
+        </div>
+        <div class="race-details">
+          <h3 class="race-name" data-en="Dongmingshan Trail Race" data-zh="东明山越野赛">Dongmingshan Trail Race</h3>
+          <p class="race-date" data-en="Date: 2026-04-26" data-zh="日期：2026-04-26">Date: 2026-04-26</p>
+          <p class="race-time" data-en="Time: 3:35:23" data-zh="成绩：3:35:23">Time: 3:35:23</p>
+          <p class="race-distance" data-en="Distance: 20.94km, Elevation: 1116m" data-zh="距离：20.94公里，爬升：1116米">Distance: 20.94km, Elevation: 1116m</p>
+          <p class="race-notes" data-en="Average pace: 10'17\"/km" data-zh="平均配速：10'17\"/公里">Average pace: 10'17"/km</p>
+        </div>
+      </article>
       <!-- Example: Trail race from your photos -->
       <article class="race-card">
         <div class="race-image">
