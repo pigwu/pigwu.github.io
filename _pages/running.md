@@ -22,7 +22,6 @@ author_profile: true
 
   <section class="race-section">
     <h2 data-en="Marathon Races" data-zh="马拉松比赛">Marathon Races</h2>
-    <p class="section-note" data-en="Add your marathon race results here" data-zh="在此添加您的马拉松比赛成绩">Add your marathon race results here</p>
     <div class="races-grid" id="marathon-races">
       <!-- Example race card - duplicate and modify for each race -->
       <!-- 
@@ -44,7 +43,6 @@ author_profile: true
 
   <section class="race-section">
     <h2 data-en="Trail Running Races" data-zh="越野跑比赛">Trail Running Races</h2>
-    <p class="section-note" data-en="Add your trail running race results here" data-zh="在此添加您的越野跑比赛成绩">Add your trail running race results here</p>
     <div class="races-grid" id="trail-races">
       <!-- Example: Trail race from your photos -->
       <article class="race-card">
@@ -63,7 +61,6 @@ author_profile: true
 
   <section class="race-section">
     <h2 data-en="Relay & Team Races" data-zh="接力赛与团队赛">Relay & Team Races</h2>
-    <p class="section-note" data-en="Add your relay and team race results here" data-zh="在此添加您的接力赛和团队赛成绩">Add your relay and team race results here</p>
     <div class="races-grid" id="relay-races">
       <!-- Example: Relay race from your photos -->
       <article class="race-card">
