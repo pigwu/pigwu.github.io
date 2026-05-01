@@ -11,11 +11,11 @@ author_profile: true
     <div class="pb-grid">
       <div class="pb-card">
         <p class="pb-label" data-en="5K Personal Best" data-zh="5公里最佳">5K Personal Best</p>
-        <p class="pb-value">19:56</p>
+        <p class="pb-value" data-target="19:56">19:56</p>
       </div>
       <div class="pb-card">
         <p class="pb-label" data-en="Half Marathon Personal Best" data-zh="半程马拉松最佳">Half Marathon Personal Best</p>
-        <p class="pb-value">1:33:34</p>
+        <p class="pb-value" data-target="1:33:34">1:33:34</p>
       </div>
     </div>
   </section>
@@ -181,3 +181,65 @@ author_profile: true
   color: var(--muted-text-color);
 }
 </style>
+
+<script>
+(function() {
+  function parseTimeToSeconds(value) {
+    if (!value) return null;
+    var parts = value.split(":").map(Number);
+    if (parts.length === 2) return parts[0] * 60 + parts[1];
+    if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+    return null;
+  }
+
+  function formatSeconds(value, format) {
+    if (format === "hh:mm:ss") {
+      var h = Math.floor(value / 3600);
+      var m = Math.floor((value % 3600) / 60);
+      var s = value % 60;
+      return h + ":" + String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+    }
+    var mm = Math.floor(value / 60);
+    var ss = value % 60;
+    return String(mm).padStart(2, "0") + ":" + String(ss).padStart(2, "0");
+  }
+
+  var hasAnimated = false;
+  function animatePB() {
+    if (hasAnimated) return;
+    hasAnimated = true;
+
+    document.querySelectorAll(".pb-value").forEach(function(el) {
+      var target = el.dataset.target;
+      var totalSeconds = parseTimeToSeconds(target);
+      var format = target.split(":").length === 3 ? "hh:mm:ss" : "mm:ss";
+      
+      if (!totalSeconds) return;
+
+      var start = null;
+      var duration = 1200;
+
+      function step(timestamp) {
+        if (!start) start = timestamp;
+        var progress = Math.min((timestamp - start) / duration, 1);
+        var current = Math.round(totalSeconds * progress);
+        el.textContent = formatSeconds(current, format);
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        animatePB();
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.4 });
+
+  var pbGrid = document.querySelector(".pb-grid");
+  if (pbGrid) observer.observe(pbGrid);
+})();
+</script>
