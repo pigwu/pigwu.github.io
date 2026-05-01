@@ -70,8 +70,8 @@
   a {
     display: inline-block;
     padding: 0.4em 0.8em;
-    background: var(--link-color);
-    color: var(--global-bg-color);
+    background: #2563eb;
+    color: #ffffff;
     border-radius: 4px;
     font-weight: 600;
     font-size: 0.85em;
@@ -79,7 +79,7 @@
     cursor: pointer;
 
     &:hover {
-      background: var(--link-color-hover);
+      background: #1d4ed8;
       transform: translateY(-1px);
     }
 
