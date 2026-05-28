@@ -20,6 +20,13 @@
   font-family: "Sora", "Avenir Next", "Segoe UI", sans-serif;
 }
 
+.running-page *,
+.running-page *::before,
+.running-page *::after {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
 .running-page::before {
   content: "";
   position: absolute;
@@ -62,10 +69,10 @@
 
 .running-hero {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
   gap: clamp(1rem, 3vw, 1.4rem);
   align-items: stretch;
-  min-height: clamp(360px, 50vh, 560px);
+  min-height: clamp(340px, 46vh, 520px);
 }
 
 .running-hero__copy,
@@ -79,6 +86,7 @@
 }
 
 .running-hero__copy {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -92,10 +100,12 @@
   position: absolute;
   top: 1.2rem;
   right: 1.3rem;
-  color: rgba(231, 247, 251, 0.08);
-  font-size: clamp(2.4rem, 8vw, 6.8rem);
+  color: rgba(231, 247, 251, 0.045);
+  font-size: clamp(1.7rem, 4.4vw, 4rem);
   font-weight: 800;
   line-height: 1;
+  text-align: right;
+  overflow-wrap: anywhere;
   pointer-events: none;
 }
 
@@ -109,31 +119,34 @@
   color: var(--run-muted);
   font-size: 0.72rem;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.35;
   text-transform: uppercase;
   letter-spacing: 0.12em;
+  overflow-wrap: anywhere;
 }
 
 .running-hero h1 {
   max-width: 780px;
   margin: 0.65rem 0 0;
   color: var(--run-text);
-  font-size: clamp(2.15rem, 5.6vw, 5.3rem);
+  font-size: clamp(2.1rem, 4.4vw, 4.15rem);
   font-weight: 800;
-  line-height: 0.98;
+  line-height: 1.04;
+  overflow-wrap: break-word;
 }
 
 .running-hero__text {
   max-width: 62ch;
   margin: 1.1rem 0 0;
   color: #b7c9d2;
-  font-size: clamp(0.96rem, 1.6vw, 1.08rem);
+  font-size: clamp(0.96rem, 1.3vw, 1.04rem);
   line-height: 1.7;
+  overflow-wrap: break-word;
 }
 
 .running-hero__panel {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
   overflow: hidden;
   border-radius: 18px;
@@ -142,17 +155,23 @@
 
 .running-hero__panel div {
   display: flex;
-  min-height: 150px;
+  min-height: 138px;
   flex-direction: column;
   justify-content: space-between;
   background: linear-gradient(150deg, rgba(13, 30, 42, 0.95), rgba(7, 16, 23, 0.96));
   padding: 1rem;
+  overflow: hidden;
+}
+
+.running-hero__panel div:first-child {
+  grid-column: span 3;
 }
 
 .running-hero__panel strong {
   color: var(--run-text);
-  font-size: clamp(1.15rem, 2.6vw, 1.9rem);
-  line-height: 1;
+  font-size: clamp(1.1rem, 1.65vw, 1.55rem);
+  line-height: 1.08;
+  overflow-wrap: anywhere;
 }
 
 .section-heading {
@@ -166,8 +185,9 @@
 .section-heading h2 {
   margin: 0;
   color: var(--run-text);
-  font-size: clamp(1.45rem, 3vw, 2.25rem);
-  line-height: 1.05;
+  font-size: clamp(1.35rem, 2.4vw, 2rem);
+  line-height: 1.12;
+  overflow-wrap: anywhere;
 }
 
 .running-intro,
@@ -178,13 +198,14 @@
 
 .pb-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr));
   gap: 0.85rem;
 }
 
 .pb-card {
   position: relative;
   overflow: hidden;
+  overflow: clip;
   min-height: 128px;
   border: 1px solid var(--run-border);
   border-radius: 12px;
@@ -205,9 +226,10 @@
 .pb-value {
   margin: 1.1rem 0 0;
   color: var(--run-cyan);
-  font-size: clamp(2rem, 5vw, 3.1rem);
+  font-size: clamp(1.75rem, 3.2vw, 2.55rem);
   font-weight: 800;
-  line-height: 0.95;
+  line-height: 1;
+  overflow-wrap: anywhere;
 }
 
 .pb-value--plain {
@@ -231,12 +253,12 @@
 
 .race-card--featured {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
 }
 
 .races-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
   gap: 1rem;
 }
 
@@ -278,7 +300,7 @@
 }
 
 .race-image-carousel {
-  min-height: clamp(390px, 62vh, 620px);
+  min-height: clamp(360px, 54vh, 560px);
   outline: none;
   touch-action: pan-y;
 }
@@ -297,13 +319,13 @@
   position: absolute;
   inset: 0;
   opacity: 0;
-  transform: scale(1.02);
-  transition: opacity 0.45s ease, transform 0.75s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transform: translateZ(0);
+  transition: opacity 0.45s ease;
 }
 
 .race-images img.active {
   opacity: 1;
-  transform: scale(1);
+  transform: translateZ(0);
   z-index: 1;
 }
 
@@ -368,6 +390,7 @@
   padding: 0.55rem 0.75rem;
   font-size: 0.85rem;
   font-weight: 700;
+  overflow-wrap: break-word;
 }
 
 .carousel-dots {
@@ -446,6 +469,7 @@
 
 .race-details__topline {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: 0.75rem;
 }
@@ -453,14 +477,16 @@
 .race-name {
   margin: 0;
   color: var(--run-text);
-  font-size: clamp(1.15rem, 2.2vw, 1.75rem);
-  line-height: 1.1;
+  font-size: clamp(1.12rem, 1.8vw, 1.55rem);
+  line-height: 1.15;
+  overflow-wrap: anywhere;
 }
 
 .race-note {
   margin: 0;
   color: #b4c7cf;
   line-height: 1.58;
+  overflow-wrap: break-word;
 }
 
 .race-metrics {
@@ -475,13 +501,16 @@
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.035);
   padding: 0.75rem;
+  overflow: hidden;
 }
 
 .race-metrics dd {
   margin: 0.45rem 0 0;
   color: var(--run-text);
-  font-size: 1.05rem;
+  font-size: clamp(0.92rem, 1.2vw, 1.02rem);
   font-weight: 800;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
 }
 
 .running-page .reveal {
@@ -557,16 +586,35 @@ html:not([data-theme="dark"]) .race-image-carousel {
   background-size: 24px 24px;
 }
 
-@media (max-width: 1040px) {
+@media (max-width: 1180px) {
   .running-hero,
   .race-card--featured {
     grid-template-columns: 1fr;
   }
 
   .race-image-carousel {
-    min-height: clamp(360px, 58vh, 540px);
+    min-height: clamp(340px, 54vh, 520px);
   }
 
+  .running-hero__panel {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .running-hero__panel div:first-child {
+    grid-column: span 1;
+  }
+
+  .running-hero__panel div {
+    min-height: 118px;
+  }
+
+  .races-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .pb-grid,
   .races-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -590,6 +638,10 @@ html:not([data-theme="dark"]) .race-image-carousel {
 
   .running-hero__panel div {
     min-height: 108px;
+  }
+
+  .running-hero__panel div:first-child {
+    grid-column: span 1;
   }
 
   .section-heading {

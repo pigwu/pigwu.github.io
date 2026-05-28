@@ -20,6 +20,13 @@
   font-family: "Sora", "Avenir Next", "Segoe UI", sans-serif;
 }
 
+.about-showcase *,
+.about-showcase *::before,
+.about-showcase *::after {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
 .about-showcase::before {
   content: "";
   position: absolute;
@@ -55,9 +62,9 @@
 
 .about-hero {
   display: grid;
-  grid-template-columns: minmax(0, 1.18fr) minmax(280px, 0.82fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 1px;
-  min-height: clamp(390px, 54vh, 590px);
+  min-height: auto;
   background: rgba(126, 238, 255, 0.15);
 }
 
@@ -67,21 +74,26 @@
 }
 
 .about-hero__copy {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: clamp(1.25rem, 4vw, 2.4rem);
+  min-height: clamp(350px, 46vh, 500px);
+  padding: clamp(1.2rem, 3vw, 2rem);
 }
 
 .about-hero__copy::before {
   content: "VISION / WORLD MODEL";
   position: absolute;
-  top: 1.2rem;
-  right: 1.3rem;
-  color: rgba(231, 247, 251, 0.07);
-  font-size: clamp(2rem, 6.6vw, 5.2rem);
+  top: 1rem;
+  right: 1rem;
+  max-width: min(520px, calc(100% - 2rem));
+  color: rgba(231, 247, 251, 0.045);
+  font-size: clamp(1.35rem, 3.8vw, 3.6rem);
   font-weight: 800;
-  line-height: 0.95;
+  line-height: 1;
+  text-align: right;
+  overflow-wrap: anywhere;
   pointer-events: none;
 }
 
@@ -94,17 +106,19 @@
   color: var(--about-soft-ink);
   font-size: 0.72rem;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.35;
   text-transform: uppercase;
   letter-spacing: 0.12em;
+  overflow-wrap: anywhere;
 }
 
 .about-hero h1 {
   margin: 0.65rem 0 1rem;
   color: var(--about-ink);
-  font-size: clamp(2.6rem, 7.4vw, 6.2rem);
+  font-size: clamp(2.35rem, 5.2vw, 4.35rem);
   font-weight: 800;
-  line-height: 0.92;
+  line-height: 1;
+  overflow-wrap: anywhere;
 }
 
 .about-intro {
@@ -112,6 +126,7 @@
   max-width: 76ch;
   color: #b7c9d2;
   line-height: 1.75;
+  overflow-wrap: break-word;
 }
 
 .about-intro strong {
@@ -137,14 +152,14 @@
 
 .about-signal-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(145px, 100%), 1fr));
   gap: 1px;
   background: rgba(126, 238, 255, 0.15);
 }
 
 .about-signal-grid div {
   display: flex;
-  min-height: 150px;
+  min-height: 118px;
   flex-direction: column;
   justify-content: space-between;
   background: linear-gradient(150deg, rgba(13, 30, 42, 0.95), rgba(7, 16, 23, 0.96));
@@ -153,8 +168,9 @@
 
 .about-signal-grid strong {
   color: var(--about-ink);
-  font-size: clamp(1rem, 2.2vw, 1.55rem);
-  line-height: 1.05;
+  font-size: clamp(1rem, 1.7vw, 1.35rem);
+  line-height: 1.12;
+  overflow-wrap: anywhere;
 }
 
 .about-showcase section + section {
@@ -172,8 +188,9 @@
 .panel-heading h2 {
   margin: 0.35rem 0 0;
   color: var(--about-ink);
-  font-size: clamp(1.4rem, 3vw, 2.25rem);
-  line-height: 1.05;
+  font-size: clamp(1.35rem, 2.4vw, 2rem);
+  line-height: 1.12;
+  overflow-wrap: anywhere;
 }
 
 .focus-grid {
@@ -195,6 +212,8 @@
   margin: 0.65rem 0 0.55rem;
   color: var(--about-ink);
   font-size: 1.05rem;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 
 .focus-grid p,
@@ -202,11 +221,12 @@
   margin: 0;
   color: #b7c9d2;
   line-height: 1.65;
+  overflow-wrap: break-word;
 }
 
 .project-card {
   display: grid;
-  grid-template-columns: minmax(160px, 0.32fr) minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 0.34fr) minmax(0, 1fr) auto;
   gap: 1rem;
   align-items: center;
 }
@@ -223,6 +243,7 @@
   font-weight: 800;
   padding: 0.55rem 0.9rem;
   text-decoration: none;
+  white-space: nowrap;
   transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
 }
 
@@ -288,14 +309,23 @@ html:not([data-theme="dark"]) .project-card p {
   color: #435f68;
 }
 
-@media (max-width: 920px) {
-  .about-hero,
+@media (min-width: 1180px) {
+  .about-showcase {
+    max-width: 1040px;
+  }
+
+  .about-hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 1180px) {
   .project-card {
     grid-template-columns: 1fr;
   }
 
-  .about-hero {
-    min-height: auto;
+  .project-link {
+    justify-self: start;
   }
 }
 
@@ -311,6 +341,21 @@ html:not([data-theme="dark"]) .project-card p {
 
   .about-signal-grid div {
     min-height: 110px;
+  }
+
+  .about-hero__copy {
+    min-height: auto;
+  }
+
+  .about-hero__copy::before {
+    font-size: clamp(1.15rem, 8vw, 2.1rem);
+    opacity: 0.85;
+  }
+
+  .project-link {
+    width: 100%;
+    border-radius: 12px;
+    white-space: normal;
   }
 }
 
