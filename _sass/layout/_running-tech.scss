@@ -217,8 +217,9 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(112deg, transparent 8%, rgba(126, 238, 255, 0.12) 45%, transparent 68%);
-  transform: translateX(-105%);
+  background: linear-gradient(112deg, transparent 0%, transparent 38%, rgba(126, 238, 255, 0.12) 50%, transparent 62%, transparent 100%);
+  background-position: 140% 0;
+  background-size: 220% 100%;
   animation: pb-shine 5.5s ease-in-out infinite;
   pointer-events: none;
 }
@@ -237,6 +238,7 @@
 }
 
 .race-card {
+  position: relative;
   overflow: hidden;
   border: 1px solid var(--run-border);
   border-radius: 16px;
@@ -254,6 +256,64 @@
 .race-card--featured {
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+}
+
+.race-card--selectable {
+  cursor: pointer;
+  outline: none;
+}
+
+.race-card--selectable::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 0 rgba(167, 255, 90, 0);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, box-shadow 0.2s ease;
+}
+
+.race-card--selectable::before {
+  content: "";
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  z-index: 3;
+  width: 0.68rem;
+  height: 0.68rem;
+  border: 1px solid rgba(231, 247, 251, 0.52);
+  border-radius: 999px;
+  background: rgba(4, 12, 18, 0.76);
+  box-shadow: 0 0 0 4px rgba(4, 12, 18, 0.45);
+  pointer-events: none;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.race-card--selectable:hover,
+.race-card--selectable:focus-visible {
+  border-color: var(--run-border-strong);
+}
+
+.race-card--selectable:focus-visible {
+  box-shadow: 0 0 0 3px rgba(67, 217, 255, 0.26), 0 26px 68px -42px rgba(67, 217, 255, 0.68);
+}
+
+.race-card--selectable.is-selected {
+  border-color: rgba(167, 255, 90, 0.72);
+  box-shadow: 0 30px 76px -42px rgba(167, 255, 90, 0.45), 0 0 0 1px rgba(167, 255, 90, 0.18);
+  transform: translateY(-2px);
+}
+
+.race-card--selectable.is-selected::after {
+  box-shadow: inset 0 0 0 1px rgba(167, 255, 90, 0.38), inset 0 1px 34px rgba(167, 255, 90, 0.08);
+  opacity: 1;
+}
+
+.race-card--selectable.is-selected::before {
+  border-color: rgba(167, 255, 90, 0.95);
+  background: var(--run-green);
+  box-shadow: 0 0 0 4px rgba(4, 12, 18, 0.56), 0 0 18px rgba(167, 255, 90, 0.78);
 }
 
 .races-grid {
@@ -491,8 +551,9 @@
 
 .race-metrics {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.7rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(136px, 100%), 1fr));
+  align-content: start;
+  gap: 0.62rem;
   margin: 0;
 }
 
@@ -500,17 +561,24 @@
   border: 1px solid rgba(126, 238, 255, 0.18);
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.035);
-  padding: 0.75rem;
+  padding: 0.68rem;
   overflow: hidden;
 }
 
 .race-metrics dd {
   margin: 0.45rem 0 0;
   color: var(--run-text);
-  font-size: clamp(0.92rem, 1.2vw, 1.02rem);
+  font-size: clamp(0.88rem, 1.02vw, 0.98rem);
   font-weight: 800;
   line-height: 1.15;
   overflow-wrap: anywhere;
+}
+
+.race-featured-note {
+  margin: 0;
+  color: #b4c7cf;
+  line-height: 1.62;
+  overflow-wrap: break-word;
 }
 
 .running-page .reveal {
@@ -526,13 +594,13 @@
 
 @keyframes pb-shine {
   0% {
-    transform: translateX(-110%);
+    background-position: 140% 0;
   }
   45% {
-    transform: translateX(110%);
+    background-position: -140% 0;
   }
   100% {
-    transform: translateX(110%);
+    background-position: -140% 0;
   }
 }
 
@@ -573,8 +641,19 @@ html:not([data-theme="dark"]) .race-metrics div {
 }
 
 html:not([data-theme="dark"]) .running-hero__text,
-html:not([data-theme="dark"]) .race-note {
+html:not([data-theme="dark"]) .race-note,
+html:not([data-theme="dark"]) .race-featured-note {
   color: #435f68;
+}
+
+html:not([data-theme="dark"]) .race-card--selectable::before {
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.48);
+}
+
+html:not([data-theme="dark"]) .race-card--selectable.is-selected::before {
+  background: var(--run-green);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.58), 0 0 16px rgba(63, 140, 30, 0.62);
 }
 
 html:not([data-theme="dark"]) .race-image,
