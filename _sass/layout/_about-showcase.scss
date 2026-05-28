@@ -231,6 +231,10 @@
   align-items: center;
 }
 
+.project-card + .project-card {
+  margin-top: 0.85rem;
+}
+
 .project-link {
   display: inline-flex;
   min-height: 42px;

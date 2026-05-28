@@ -85,6 +85,28 @@ redirect_from:
       </p>
       <a href="https://github.com/pigwu/ARPoseStreamer" target="_blank" rel="noopener" class="project-link" data-en="View on GitHub" data-zh="在 GitHub 上查看">View on GitHub</a>
     </article>
+
+    <article class="project-card">
+      <div>
+        <span data-en="Diagnostics" data-zh="诊断工具">Diagnostics</span>
+        <h3 data-en="iPhone UDP Packet Loss Monitor" data-zh="iPhone UDP Packet Loss Monitor">iPhone UDP Packet Loss Monitor</h3>
+      </div>
+      <p data-en="A focused desktop dashboard for measuring real-time UDP packet loss from iPhone ARKit pose streams, including missing packets, rolling FPS, sequence gaps, latency, jitter, duplicates, and out-of-order diagnostics." data-zh="一个面向 iPhone ARKit 姿态流的桌面诊断面板，用于实时测量 UDP 丢包率、缺失包、滚动 FPS、序列跳变、延迟、抖动、重复包和乱序包。">
+        A focused desktop dashboard for measuring real-time UDP packet loss from iPhone ARKit pose streams, including missing packets, rolling FPS, sequence gaps, latency, jitter, duplicates, and out-of-order diagnostics.
+      </p>
+      <a href="https://github.com/pigwu/iPhoneUDPPacketLossMonitor" target="_blank" rel="noopener" class="project-link" data-en="View on GitHub" data-zh="在 GitHub 上查看">View on GitHub</a>
+    </article>
+
+    <article class="project-card">
+      <div>
+        <span data-en="Validation" data-zh="验证工具">Validation</span>
+        <h3 data-en="iPhone Trajectory Validator" data-zh="iPhone Trajectory Validator">iPhone Trajectory Validator</h3>
+      </div>
+      <p data-en="An offline GUI and command-line workflow for validating iPhone ARKit trajectory accuracy against reference robot logs, producing trajectory overlap plots, axis error curves, error histograms, and numeric evaluation metrics." data-zh="一个离线 GUI 与命令行工具，用参考机器人日志验证 iPhone ARKit 轨迹精度，并输出轨迹重叠图、轴向误差曲线、误差直方图和数值评估指标。">
+        An offline GUI and command-line workflow for validating iPhone ARKit trajectory accuracy against reference robot logs, producing trajectory overlap plots, axis error curves, error histograms, and numeric evaluation metrics.
+      </p>
+      <a href="https://github.com/pigwu/iPhoneTrajectoryValidator" target="_blank" rel="noopener" class="project-link" data-en="View on GitHub" data-zh="在 GitHub 上查看">View on GitHub</a>
+    </article>
   </section>
 </div>
 
