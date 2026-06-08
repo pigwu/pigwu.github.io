@@ -7,7 +7,7 @@
       distance: "4-6 km",
       elevation: "low",
       focus: "social",
-      motion: "steady"
+      motion: "Open"
     },
     hills: {
       label: "Liuxia Hills",
@@ -16,7 +16,7 @@
       distance: "8-12 km",
       elevation: "+240 m",
       focus: "climb",
-      motion: "alert"
+      motion: "Climb"
     },
     lake: {
       label: "Westlake Long Run",
@@ -25,7 +25,7 @@
       distance: "10-16 km",
       elevation: "rolling",
       focus: "endurance",
-      motion: "cruise"
+      motion: "Endurance"
     },
     track: {
       label: "Track Session",
@@ -34,7 +34,7 @@
       distance: "6-8 km",
       elevation: "flat",
       focus: "speed",
-      motion: "sharp"
+      motion: "Speed"
     }
   };
 

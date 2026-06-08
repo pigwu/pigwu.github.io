@@ -314,13 +314,27 @@ input:focus-visible {
 .club-hero h1 {
   position: relative;
   max-width: 840px;
-  margin: 0.75rem 0 0;
+  margin: 0.4rem 0 0;
   color: var(--club-text);
-  font-size: clamp(2.8rem, 6.4vw, 5.85rem);
+  font-size: clamp(2.55rem, 5.8vw, 5.35rem);
   font-weight: 900;
   letter-spacing: 0;
   line-height: 0.98;
   text-transform: uppercase;
+}
+
+.hero-manifesto {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0.68rem 0 0;
+  color: var(--club-green);
+  font-size: clamp(3.35rem, 8.5vw, 8.2rem);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 0.82;
+  text-transform: uppercase;
+  text-shadow: 0 0 34px rgba(141, 255, 114, 0.24);
 }
 
 .club-hero__lead,
@@ -337,7 +351,11 @@ input:focus-visible {
 
 .club-hero__lead {
   max-width: 680px;
-  margin: 1.25rem 0 0;
+  margin: 1rem 0 0;
+  color: rgba(242, 255, 248, 0.88);
+  font-size: clamp(1rem, 1.65vw, 1.25rem);
+  font-weight: 800;
+  letter-spacing: 0.02em;
 }
 
 .hero-command {
@@ -346,7 +364,7 @@ input:focus-visible {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
-  margin-top: 1.45rem;
+  margin-top: 1.25rem;
   overflow: hidden;
   border: 1px solid rgba(151, 255, 199, 0.18);
   background: rgba(151, 255, 199, 0.16);
@@ -359,7 +377,7 @@ input:focus-visible {
   background:
     linear-gradient(145deg, rgba(141, 255, 114, 0.08), transparent 70%),
     rgba(3, 10, 10, 0.92);
-  padding: 0.85rem;
+  padding: 0.9rem;
 }
 
 .hero-command span,
@@ -379,7 +397,7 @@ input:focus-visible {
 
 .hero-command strong {
   color: var(--club-text);
-  font-size: clamp(1rem, 2vw, 1.45rem);
+  font-size: clamp(1.08rem, 2vw, 1.55rem);
   font-weight: 900;
   line-height: 1;
   text-transform: uppercase;
@@ -1015,10 +1033,53 @@ input:focus-visible {
   outline: none;
 }
 
+.training-stack article {
+  min-height: 142px;
+  display: grid;
+  align-content: space-between;
+  padding-left: 1.15rem;
+}
+
 .training-stack article.is-active,
 .calendar-board article.is-active {
   border-color: rgba(141, 255, 114, 0.72);
   background: linear-gradient(135deg, rgba(141, 255, 114, 0.13), rgba(57, 216, 255, 0.05));
+}
+
+.training-stack article::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--session-accent, var(--club-green));
+  box-shadow: 0 0 22px var(--session-glow, rgba(141, 255, 114, 0.6));
+}
+
+.training-stack article.is-easy {
+  --session-accent: var(--club-green);
+  --session-glow: rgba(141, 255, 114, 0.72);
+}
+
+.training-stack article.is-tempo {
+  --session-accent: var(--club-orange);
+  --session-glow: rgba(255, 177, 95, 0.72);
+}
+
+.training-stack article.is-trail {
+  --session-accent: #a78bfa;
+  --session-glow: rgba(167, 139, 250, 0.68);
+}
+
+.training-stack article.is-tempo.is-active {
+  border-color: rgba(255, 177, 95, 0.65);
+  background: linear-gradient(135deg, rgba(255, 177, 95, 0.14), rgba(57, 216, 255, 0.05));
+}
+
+.training-stack article.is-trail.is-active {
+  border-color: rgba(167, 139, 250, 0.65);
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.14), rgba(57, 216, 255, 0.05));
 }
 
 .session-panel {
@@ -1354,9 +1415,15 @@ input:focus-visible {
   grid-template-columns: 190px minmax(0, 1fr);
   gap: 1.2rem;
   align-items: center;
+  background:
+    radial-gradient(circle at 14% 20%, rgba(141, 255, 114, 0.14), transparent 16rem),
+    linear-gradient(135deg, rgba(57, 216, 255, 0.08), transparent 46%),
+    rgba(242, 255, 248, 0.035);
 }
 
 .captain-avatar {
+  position: relative;
+  overflow: hidden;
   display: grid;
   aspect-ratio: 1;
   place-items: center;
@@ -1365,7 +1432,26 @@ input:focus-visible {
     #061011;
 }
 
+.captain-avatar::before {
+  content: "";
+  position: absolute;
+  inset: 16%;
+  border: 1px solid rgba(242, 255, 248, 0.28);
+  border-radius: 999px;
+}
+
+.captain-avatar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(from 0deg, transparent, rgba(141, 255, 114, 0.5), transparent 28%);
+  opacity: 0.55;
+  animation: radar-sweep 5s linear infinite;
+}
+
 .captain-avatar span {
+  position: relative;
+  z-index: 1;
   color: var(--club-text);
   font-size: 3rem;
   font-weight: 900;
@@ -1383,16 +1469,83 @@ input:focus-visible {
 
 .captain-stats span {
   border: 1px solid rgba(151, 255, 199, 0.2);
-  background: rgba(141, 255, 114, 0.08);
+  background:
+    linear-gradient(135deg, rgba(141, 255, 114, 0.12), rgba(57, 216, 255, 0.05)),
+    rgba(3, 10, 10, 0.72);
   color: var(--club-text);
   font-size: 0.78rem;
   font-weight: 900;
-  padding: 0.44rem 0.62rem;
+  padding: 0.55rem 0.72rem;
   text-transform: uppercase;
 }
 
 .join-section {
   margin-bottom: 1.2rem;
+}
+
+.join-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.42fr);
+  gap: 0.85rem;
+  align-items: stretch;
+  margin-top: 1rem;
+}
+
+.join-layout .join-grid {
+  margin-top: 0;
+}
+
+.join-signal {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  align-content: space-between;
+  gap: 0.9rem;
+  border: 1px solid rgba(151, 255, 199, 0.22);
+  background:
+    radial-gradient(circle at 80% 20%, rgba(141, 255, 114, 0.2), transparent 10rem),
+    linear-gradient(rgba(151, 255, 199, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(151, 255, 199, 0.08) 1px, transparent 1px),
+    rgba(3, 13, 12, 0.9);
+  background-size: auto, 26px 26px, 26px 26px, auto;
+  padding: 1rem;
+}
+
+.join-signal::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 0 42%, rgba(141, 255, 114, 0.12) 50%, transparent 58% 100%);
+  background-position: 140% 0;
+  background-size: 220% 100%;
+  animation: route-scan 5.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.join-signal > * {
+  position: relative;
+}
+
+.join-signal span {
+  color: var(--club-green);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.join-signal strong {
+  color: var(--club-text);
+  font-size: clamp(1.35rem, 3vw, 2.25rem);
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.join-signal p {
+  margin: 0;
+  color: var(--club-muted);
+  line-height: 1.65;
 }
 
 .club-ticker {
@@ -1611,7 +1764,8 @@ input:focus-visible {
   .club-hero__content,
   .split-section,
   .captain-card,
-  .pace-lab__grid {
+  .pace-lab__grid,
+  .join-layout {
     grid-template-columns: 1fr;
   }
 
@@ -1700,6 +1854,7 @@ input:focus-visible {
 
   .session-metrics,
   .pace-lab__grid,
+  .join-layout,
   .club-ticker {
     grid-template-columns: 1fr;
   }
