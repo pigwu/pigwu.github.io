@@ -330,7 +330,7 @@
 
   function initTiltCards() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    var cards = document.querySelectorAll(".mission-grid article, .training-stack article, .calendar-board article, .join-grid div, .captain-card, .pace-control-panel, .pace-result, .energy-board, .calendar-detail");
+    var cards = document.querySelectorAll(".mission-grid article, .race-card, .training-stack article, .calendar-board article, .join-grid div, .captain-card, .pace-control-panel, .pace-result, .energy-board, .calendar-detail");
     cards.forEach(function (card) {
       card.addEventListener("pointermove", function (event) {
         var rect = card.getBoundingClientRect();
