@@ -13,6 +13,10 @@
 
 <script>
   document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+
+  // Initialize language early
+  var currentLang = localStorage.getItem('language') || 'en';
+  document.documentElement.setAttribute('lang', currentLang);
 </script>
 
 <!-- For all browsers -->

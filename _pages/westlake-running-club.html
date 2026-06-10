@@ -1,0 +1,403 @@
+---
+permalink: /westlake-running-club/
+title: "Westlake Running Club"
+layout: null
+sitemap: true
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="西湖大学学生跑团独立介绍页">
+    <title>西湖大学学生跑团 | Westlake Running Club</title>
+    <link rel="icon" type="image/svg+xml" href="{{ '/images/favicon.svg' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/westlake-running-club.css' | relative_url }}">
+  </head>
+  <body>
+    <div class="club-progress" aria-hidden="true"><span data-scroll-progress></span></div>
+    <div class="club-aura" aria-hidden="true"></div>
+    <main class="club-page">
+      <section class="club-hero" aria-labelledby="club-title">
+        <div class="club-hero__topbar" aria-label="Page navigation">
+          <a class="club-brand" href="#club-title" aria-label="Westlake Running Club">
+            <span class="club-brand__mark">WRC</span>
+            <span>Westlake Running Club</span>
+          </a>
+          <nav class="club-nav" aria-label="Club sections">
+            <a href="#training">训练</a>
+            <a href="#pace-lab">配速</a>
+            <a href="#calendar">日程</a>
+            <a href="#captain">社长</a>
+            <a href="#join">加入</a>
+          </nav>
+        </div>
+
+        <div class="club-hero__content">
+          <div class="club-hero__copy">
+            <p class="club-kicker">WRC / Westlake Running Club</p>
+            <p class="hero-manifesto">Run the Signal.</p>
+            <h1 id="club-title">在西湖的风里，把每一公里跑成信号。</h1>
+            <p class="club-hero__lead">
+              Open to every pace. Built around Yungu. Data, recovery, community.
+            </p>
+            <div class="hero-command" aria-label="Current club signal">
+              <div>
+                <span>Yungu Loop</span>
+                <strong data-route-name>Active</strong>
+              </div>
+              <div>
+                <span>Pace Groups</span>
+                <strong>5 levels</strong>
+              </div>
+              <div>
+                <span>Runner Status</span>
+                <strong data-motion-index>Open</strong>
+              </div>
+            </div>
+            <div class="club-actions">
+              <a class="club-btn club-btn--primary" href="#join">查看加入方式</a>
+              <a class="club-btn club-btn--ghost" href="#calendar">本周训练</a>
+            </div>
+          </div>
+
+          <div class="club-telemetry" aria-label="Club quick stats">
+            <figure class="club-route-card">
+              <img src="{{ '/images/westlake-running-club/campus-night-map.png' | relative_url }}" alt="夜间校园跑步路线发光地图">
+              <div class="map-scan" aria-hidden="true"></div>
+              <svg class="map-routes" viewBox="0 0 100 56" aria-hidden="true" focusable="false">
+                <path class="route-line route-line--cyan" d="M2 31 C14 22 18 38 29 26 C38 16 48 35 58 22 C69 8 72 34 86 21 C92 16 96 11 99 7" />
+                <path class="route-line route-line--green" d="M9 39 C18 43 24 35 32 41 C41 48 51 39 59 44 C68 49 77 40 88 45" />
+                <path class="route-line route-line--orange" d="M52 3 C52 12 52 20 52 28 C45 31 40 34 35 38 C47 39 63 39 81 40 C86 44 90 47 96 48" />
+              </svg>
+              <div class="runner-trace runner-trace--one" aria-hidden="true"></div>
+              <div class="runner-trace runner-trace--two" aria-hidden="true"></div>
+              <div class="runner-trace runner-trace--three" aria-hidden="true"></div>
+              <div class="map-hud" aria-hidden="true">
+                <span>Live campus map</span>
+                <strong>3 routes online</strong>
+              </div>
+              <figcaption>Night campus route / live signal map</figcaption>
+              <button class="route-hotspot route-hotspot--campus is-active" type="button" data-route="campus" aria-label="查看云谷校园环线"></button>
+              <button class="route-hotspot route-hotspot--hills" type="button" data-route="hills" aria-label="查看留下山路路线"></button>
+              <button class="route-hotspot route-hotspot--lake" type="button" data-route="lake" aria-label="查看西湖长距离路线"></button>
+            </figure>
+            <div class="route-brief" aria-live="polite">
+              <span data-route-label>Yungu Loop</span>
+              <strong data-route-title>云谷校园环线</strong>
+              <p data-route-copy>低强度 4-6 km，适合新成员熟悉集合点、热身节奏和夜跑安全规则。</p>
+            </div>
+            <div class="route-readout" aria-label="Selected route details">
+              <div>
+                <span>Distance</span>
+                <strong data-route-km>4-6 km</strong>
+              </div>
+              <div>
+                <span>Elevation</span>
+                <strong data-route-elevation>low</strong>
+              </div>
+              <div>
+                <span>Focus</span>
+                <strong data-route-focus>social</strong>
+              </div>
+            </div>
+            <div class="club-radar" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div class="telemetry-grid">
+              <div>
+                <span>weekly sessions</span>
+                <strong>4</strong>
+              </div>
+              <div>
+                <span>common routes</span>
+                <strong>6</strong>
+              </div>
+              <div>
+                <span>pace groups</span>
+                <strong>5:00-7:30</strong>
+              </div>
+              <div>
+                <span>club mode</span>
+                <strong>open</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-strip" aria-label="Route highlights">
+          <button type="button" data-route="campus">Yungu Loop</button>
+          <button type="button" data-route="hills">Liuxia Hills</button>
+          <button type="button" data-route="lake">Westlake Long Run</button>
+          <button type="button" data-route="track">Track Session</button>
+        </div>
+      </section>
+
+      <section class="club-section reveal" aria-labelledby="mission-title">
+        <div class="section-heading">
+          <p>Run Philosophy</p>
+          <h2 id="mission-title">不只追配速，也追稳定、恢复和一起出发。</h2>
+        </div>
+        <div class="mission-grid">
+          <article>
+            <span>01</span>
+            <h3>Open to every pace.</h3>
+            <p>从第一次轻松跑，到第一次比赛，我们都一起出发；不需要先证明自己很快。</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Built around Yungu.</h3>
+            <p>以云谷校园为起点，连接西湖、留下与周边山路，把校园路线变成共同记忆。</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Data, recovery, community.</h3>
+            <p>我们关注配速，也关注心率、恢复和长期稳定；数据服务身体，也服务同伴。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="club-section race-signals reveal" aria-labelledby="race-signals-title">
+        <div class="section-heading">
+          <p>Race Signals</p>
+          <h2 id="race-signals-title">赛事瞬间，把训练信号变成真实队伍。</h2>
+        </div>
+        <div class="race-grid">
+          <article class="race-card race-card--feature">
+            <img src="{{ '/images/westlake-running-club/gaobai-qualifier-group.jpg' | relative_url }}" alt="西湖大学跑团高百资格赛夜间大合影" loading="lazy" decoding="async">
+            <div class="race-card__overlay">
+              <span>Qualifier Night</span>
+              <h3>高百资格赛</h3>
+              <p>夜间操场集结，跑团一起完成资格赛测试，把训练信号变成团队现场。</p>
+            </div>
+          </article>
+          <article class="race-card race-card--relay">
+            <img src="{{ '/images/westlake-running-club/great-wall-relay-team.jpg' | relative_url }}" alt="西湖大学接力长城五人队伍合影" loading="lazy" decoding="async">
+            <div class="race-card__overlay">
+              <span>Great Wall Relay Squad</span>
+              <h3>接力长城</h3>
+              <p>五人接力队伍代表西湖大学出战，把校园训练延伸到更大的赛场。</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="club-section split-section reveal" id="training" aria-labelledby="training-title">
+        <div>
+          <div class="section-heading">
+            <p>Training Matrix</p>
+            <h2 id="training-title">训练分层，按当天状态选择强度。</h2>
+          </div>
+          <p class="section-copy">
+            跑团训练按学期节奏滚动更新。每次训练都会标注集合点、距离、强度和安全提醒，方便不同经验的同学选择适合自己的组别。
+          </p>
+        </div>
+        <div class="training-stack">
+          <article class="is-active is-easy" tabindex="0" role="button" aria-pressed="true" data-session="recovery">
+            <span>EASY / SOCIAL / BEGINNER FRIENDLY</span>
+            <strong>Yungu Easy Run</strong>
+            <p>MON 19:30 · 4-6 km · RPE 3/10 · Meet 体育馆</p>
+          </article>
+          <article class="is-tempo" tabindex="0" role="button" aria-pressed="false" data-session="tempo">
+            <span>TEMPO / FORM / SPEED CONTROL</span>
+            <strong>Track Tempo Session</strong>
+            <p>WED 20:00 · 6-8 km · RPE 6-8/10 · Meet 操场</p>
+          </article>
+          <article class="is-trail" tabindex="0" role="button" aria-pressed="false" data-session="longrun">
+            <span>TRAIL / ENDURANCE / ROUTE CREW</span>
+            <strong>Westlake Long Run</strong>
+            <p>SAT 07:30 · 10-16 km · RPE 4-6/10 · Meet 校门口</p>
+          </article>
+        </div>
+        <aside class="session-panel" aria-live="polite">
+          <span data-session-day>MON / 19:30</span>
+          <h3 data-session-title>恢复慢跑</h3>
+          <p data-session-copy>校园 4-6 km，RPE 3/10，重点是放松、聊天和建立稳定出勤。</p>
+          <div class="session-metrics">
+            <div>
+              <span>Distance</span>
+              <strong data-session-distance>4-6 km</strong>
+            </div>
+            <div>
+              <span>Intensity</span>
+              <strong data-session-intensity>Easy</strong>
+            </div>
+            <div>
+              <span>Meet</span>
+              <strong data-session-meet>体育馆</strong>
+            </div>
+          </div>
+          <div class="effort-meter" aria-label="Session effort meter">
+            <span>Effort Load</span>
+            <div class="effort-meter__track"><i data-effort-meter></i></div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="club-section pace-lab reveal" id="pace-lab" aria-labelledby="pace-lab-title">
+        <div class="section-heading">
+          <p>Pace Lab</p>
+          <h2 id="pace-lab-title">拖动参数，预演今晚的训练负荷。</h2>
+        </div>
+        <div class="pace-lab__grid">
+          <div class="pace-control-panel">
+            <label>
+              <span>Distance</span>
+              <strong><output data-distance-output>8.0</output> km</strong>
+              <input type="range" min="3" max="18" step="0.5" value="8" data-distance-range aria-label="Training distance">
+            </label>
+            <label>
+              <span>Average Pace</span>
+              <strong><output data-pace-output>5:40</output> /km</strong>
+              <input type="range" min="270" max="480" step="5" value="340" data-pace-range aria-label="Average pace in seconds per kilometer">
+            </label>
+            <div class="mode-switch" role="group" aria-label="Training mode">
+              <button class="is-active" type="button" data-mode="easy" aria-pressed="true">Easy</button>
+              <button type="button" data-mode="tempo" aria-pressed="false">Tempo</button>
+              <button type="button" data-mode="trail" aria-pressed="false">Trail</button>
+            </div>
+          </div>
+          <div class="pace-result" aria-live="polite">
+            <span>Predicted Session</span>
+            <strong data-time-output>45 min 20 sec</strong>
+            <p data-lab-copy>适合社交慢跑和新成员适应路线，保持能完整说话的强度。</p>
+            <div class="pace-orbit" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+          <div class="energy-board" aria-label="Training load indicators">
+            <div>
+              <span>Load</span>
+              <strong data-load-output>42</strong>
+              <i data-load-bar></i>
+            </div>
+            <div>
+              <span>Recovery</span>
+              <strong data-recovery-output>24h</strong>
+              <i data-recovery-bar></i>
+            </div>
+            <div>
+              <span>Crew Match</span>
+              <strong data-match-output>Easy Group</strong>
+              <i data-match-bar></i>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="club-section reveal" id="calendar" aria-labelledby="calendar-title">
+        <div class="section-heading">
+          <p>Weekly Pulse</p>
+          <h2 id="calendar-title">本周跑步信号板</h2>
+        </div>
+        <div class="calendar-board">
+          <article class="is-active" tabindex="0" role="button" aria-pressed="true" data-plan="monday">
+            <span>周一 19:30</span>
+            <h3>云谷轻松跑</h3>
+            <p>集合：体育馆门口。距离：5 km。强度：低。</p>
+          </article>
+          <article tabindex="0" role="button" aria-pressed="false" data-plan="wednesday">
+            <span>周三 20:00</span>
+            <h3>操场节奏课</h3>
+            <p>集合：操场看台。内容：热身 + 4 组节奏跑。</p>
+          </article>
+          <article tabindex="0" role="button" aria-pressed="false" data-plan="saturday">
+            <span>周六 07:30</span>
+            <h3>西湖晨跑</h3>
+            <p>集合：校门口。路线：西湖边 10-16 km 可选。</p>
+          </article>
+          <article tabindex="0" role="button" aria-pressed="false" data-plan="sunday">
+            <span>周日 自由</span>
+            <h3>恢复与拉伸</h3>
+            <p>建议记录恢复感受，补充睡眠和力量训练。</p>
+          </article>
+        </div>
+        <aside class="calendar-detail" aria-live="polite">
+          <span data-plan-tag>Tonight Signal</span>
+          <strong data-plan-title>云谷轻松跑</strong>
+          <p data-plan-copy>从体育馆出发，完成 5 km 校园慢跑。适合第一次加入，也适合比赛后恢复。</p>
+          <div>
+            <i></i>
+            <span data-plan-meta>Meet 19:30 / 体育馆 / Easy</span>
+          </div>
+        </aside>
+      </section>
+
+      <section class="club-section captain-section reveal" id="captain" aria-labelledby="captain-title">
+        <div class="captain-card">
+          <div class="captain-avatar" aria-hidden="true">
+            <span>RC</span>
+          </div>
+          <div>
+            <p class="club-kicker">Route Crew / Organization Team</p>
+            <h2 id="captain-title">线路组负责训练、路线安全和新成员支持。</h2>
+            <p>
+              跑团由线路组共同维护：负责周训练安排、路线安全、比赛提醒、新成员配速分组和越野路线说明。第一次来跑的同学可以从轻松跑开始，线路组会帮你找到合适的节奏。
+            </p>
+            <div class="captain-stats" aria-label="Captain placeholder stats">
+              <span>Route Lead</span>
+              <span>Pace Lead</span>
+              <span>Trail Lead</span>
+              <span>New Runner Support</span>
+              <span>Race Reminder</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="club-section join-section reveal" id="join" aria-labelledby="join-title">
+        <div class="section-heading">
+          <p>Join Signal</p>
+          <h2 id="join-title">Join the next easy run.</h2>
+        </div>
+        <div class="join-layout">
+          <div class="join-grid">
+            <div>
+              <span>step 01</span>
+              <strong>关注训练通知</strong>
+              <p>训练通知会提前发布集合点、路线、距离和天气提醒。</p>
+            </div>
+            <div>
+              <span>step 02</span>
+              <strong>选择配速组</strong>
+              <p>第一次来，不需要证明自己很快；从轻松跑开始，按身体状态调整。</p>
+            </div>
+            <div>
+              <span>step 03</span>
+              <strong>带上装备</strong>
+              <p>跑鞋、补水、夜跑灯，越野路线另行说明。</p>
+            </div>
+          </div>
+          <aside class="join-signal" aria-label="Tonight easy run signal">
+            <span>Tonight Signal</span>
+            <strong>19:30 / Yungu Easy Run</strong>
+            <p>Meet 体育馆 · 4-6 km · Open to all pace groups</p>
+            <a class="club-btn club-btn--primary" href="#calendar">查看本周训练</a>
+          </aside>
+        </div>
+      </section>
+
+      <section class="club-ticker" aria-label="Club live signals">
+        <div>
+          <span>LIVE SIGNAL</span>
+          <strong>Tonight 19:30 / Yungu Easy Run</strong>
+        </div>
+        <div>
+          <span>CREW STATUS</span>
+          <strong>Open to all pace groups</strong>
+        </div>
+        <div>
+          <span>ROUTE CHECK</span>
+          <strong>Bring light for night run</strong>
+        </div>
+      </section>
+    </main>
+
+    <script src="{{ '/assets/js/westlake-running-club.js' | relative_url }}" defer></script>
+  </body>
+</html>

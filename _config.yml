@@ -9,10 +9,10 @@
 # Basic Site Settings
 locale                   : "en-US"
 site_theme               : "default" # Currently available options are "default", "air"
-title                    : "Yunzhi-Wu"
+title                    : "Yunzhi WU"
 #title_separator          : "-"
-name                     : &name "Yunzhi Wu"
-description              : &description "Your Name's academic portfolio"   # Update this with a general description of your site, this is the default if not overridden by a page
+name                     : &name "Yunzhi WU"
+description              : &description "Undergraduate at Westlake University working on world models and vision-based physical interaction."
 url                      : https://pigwu.github.io # The base hostname & protocol for your site e.g. "https://[your GitHub username].github.io",
                                                            # or if you already have some other page hosted on Github then use "https://[your GitHub username].github.io/[Your Repo Name]"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
@@ -23,11 +23,12 @@ repository               : "pigwu.github.io"
 #               Additional customization can be done by editing /_includes/author-profile.html
 author:
   # Biographic information
-  avatar           : "profile.png"
-  name             : "Yunzhi Wu"
-  #pronouns         : # example: "she/her"  
-  bio              : "Short biography for the left-hand sidebar"
-  location         : "Hangzhou China"
+  avatar           : "avatar-yunzhi.jpg"
+  name             : "Yunzhi WU"
+  #pronouns         : # example: "she/her"
+  bio              : "Undergraduate researcher in the Inception 3D Lab, advised by Anpei Chen. Focused on world models and vision-based physical interaction."
+  bio_zh           : "西湖大学本科生，在Inception 3D实验室接受陈安培指导。专注于世界模型和基于视觉的物理交互。"
+  location         : "Hangzhou, China"
   employer         : "Westlake University"
   uri              : # URL
   email            : "wuyuzhi@westlake.edu.cn" 
@@ -40,7 +41,7 @@ author:
   impactstory      : # URL
   orcid            : "http://orcid.org/yourorcidurl"
   semantic         : # URL
-  pubmed           : "https://www.ncbi.nlm.nih.gov/pubmed/?term=john+snow"
+  pubmed           : # URL
   researchgate     : # URL
   scopus           : # URL
 
@@ -48,13 +49,13 @@ author:
   bitbucket        : # Username - Update with your username on the site
   codepen          : # Username
   dribbble         : # Username
-  github           : "academicpages"
+  github           : "pigwu"
   kaggle           : # Username  
   stackoverflow    : # User number or user number and name (i.e., use "1" or "1/jeff-atwood")    
 
   # Social media
   artstation       : # Username
-  bluesky          : "bsky.app" # Replace this with you Bluesky username
+  bluesky          : # Username
   facebook         : # Username
   flickr           : # Username
   foursquare       : # Username

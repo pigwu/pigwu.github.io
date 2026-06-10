@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Marathon city scene placeholder</title>
+  <desc id="desc">Stylized city race background for marathon photo showcase.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5db2ff"/>
+      <stop offset="100%" stop-color="#d9f0ff"/>
+    </linearGradient>
+    <linearGradient id="track" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2c6ea6"/>
+      <stop offset="100%" stop-color="#3b8aca"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#sky)"/>
+  <rect x="65" y="220" width="140" height="260" rx="8" fill="#2f628f"/>
+  <rect x="230" y="170" width="180" height="310" rx="8" fill="#3c78ac"/>
+  <rect x="430" y="120" width="150" height="360" rx="8" fill="#2f6d9f"/>
+  <rect x="605" y="195" width="110" height="285" rx="8" fill="#3d7fb4"/>
+  <rect x="735" y="155" width="165" height="325" rx="8" fill="#2b6598"/>
+  <rect x="925" y="210" width="145" height="270" rx="8" fill="#3f82b8"/>
+  <path d="M0 570 C280 520 450 610 680 580 C860 560 1000 600 1200 560 L1200 800 L0 800 Z" fill="url(#track)"/>
+  <path d="M0 605 C250 560 510 650 760 620 C950 595 1030 650 1200 625 L1200 800 L0 800 Z" fill="#2b5f8f" opacity="0.85"/>
+  <g fill="#fff" opacity="0.9">
+    <circle cx="255" cy="185" r="10"/>
+    <path d="M255 196 L255 230 M255 207 L236 220 M255 207 L272 220 M255 230 L241 256 M255 230 L270 253" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="355" cy="205" r="10"/>
+    <path d="M355 216 L355 250 M355 228 L336 240 M355 228 L372 242 M355 250 L342 274 M355 250 L371 270" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="458" cy="175" r="10"/>
+    <path d="M458 186 L458 220 M458 198 L440 210 M458 198 L475 211 M458 220 L445 247 M458 220 L474 243" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+  </g>
+  <text x="70" y="745" font-family="Arial, sans-serif" font-size="58" fill="#ffffff" font-weight="700">Marathon Highlight</text>
+</svg>
