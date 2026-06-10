@@ -972,7 +972,8 @@ input:focus-visible {
 }
 
 .race-card--relay {
-  min-height: clamp(340px, 31vw, 460px);
+  aspect-ratio: 2200 / 1467;
+  min-height: 0;
 }
 
 .race-card::before,
@@ -1029,7 +1030,14 @@ input:focus-visible {
 }
 
 .race-card--relay img {
-  object-position: center 42%;
+  min-height: 0;
+  object-fit: contain;
+  object-position: center center;
+  transform: none;
+}
+
+.race-card--relay:hover img {
+  transform: none;
 }
 
 .race-card__overlay {
@@ -1913,9 +1921,12 @@ input:focus-visible {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .race-card,
-  .race-card--relay {
+  .race-card {
     min-height: clamp(320px, 58vw, 480px);
+  }
+
+  .race-card--relay {
+    min-height: 0;
   }
 
   .captain-avatar {
@@ -1977,13 +1988,12 @@ input:focus-visible {
     grid-template-columns: 1fr;
   }
 
-  .race-card,
-  .race-card--relay {
+  .race-card {
     min-height: 360px;
   }
 
   .race-card--relay {
-    min-height: 280px;
+    min-height: 0;
   }
 
   .race-card__overlay {
