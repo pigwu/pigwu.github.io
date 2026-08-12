@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yunzhi Site Studio</title>
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <div class="studio-shell">
+    <aside class="studio-nav">
+      <div class="brand">
+        <span class="brand-mark">YW</span>
+        <div><strong>Site Studio</strong><small>Local content desk</small></div>
+      </div>
+      <nav aria-label="内容管理">
+        <button class="nav-item is-active" data-view="dashboard"><span>01</span>概览</button>
+        <button class="nav-item" data-view="profile"><span>02</span>主页与介绍</button>
+        <button class="nav-item" data-view="blog"><span>03</span>发布 Blog</button>
+        <button class="nav-item" data-view="running"><span>04</span>跑步记录</button>
+        <button class="nav-item" data-view="publish"><span>05</span>发布网站</button>
+      </nav>
+      <div class="local-badge"><i></i>仅在本机运行</div>
+    </aside>
+
+    <main class="studio-main">
+      <header class="topbar">
+        <div>
+          <p id="eyebrow">CONTENT OVERVIEW</p>
+          <h1 id="view-title">网站内容工作台</h1>
+        </div>
+        <a href="https://pigwu.github.io" target="_blank" rel="noopener">打开线上网站 ↗</a>
+      </header>
+
+      <div id="notice" class="notice" role="status" hidden></div>
+
+      <section class="view is-active" id="view-dashboard">
+        <div class="hero-card">
+          <div>
+            <p class="overline">YUNZHI WU / PERSONAL SITE</p>
+            <h2>把内容放进来，<br>其余交给工作台。</h2>
+            <p>修改介绍、上传照片、写 Blog、记录比赛。所有内容先保存在本地，确认后再一键发布到 GitHub。</p>
+          </div>
+          <div class="hero-orbit" aria-hidden="true"><span></span><strong>LOCAL<br>FIRST</strong></div>
+        </div>
+        <div class="quick-grid">
+          <button class="quick-card" data-jump="profile"><span>PROFILE</span><strong>修改主页介绍</strong><small>头像、中英文介绍、PB</small></button>
+          <button class="quick-card" data-jump="blog"><span>JOURNAL</span><strong>写一篇 Blog</strong><small>正文、标签、多图上传</small></button>
+          <button class="quick-card" data-jump="running"><span>RUN LOG</span><strong>新增跑步记录</strong><small>赛事数据与多图</small></button>
+          <button class="quick-card accent" data-jump="publish"><span>SHIP</span><strong>查看并发布</strong><small>Commit + Push 到 main</small></button>
+        </div>
+        <div class="status-card">
+          <div><span>当前分支</span><strong id="dash-branch">...</strong></div>
+          <div><span>本地改动</span><strong id="dash-changes">...</strong></div>
+          <div><span>最近提交</span><strong id="dash-commit">...</strong></div>
+        </div>
+      </section>
+
+      <section class="view" id="view-profile">
+        <form id="profile-form" class="editor-layout">
+          <div class="form-stack">
+            <article class="form-card">
+              <div class="card-heading"><span>IDENTITY</span><h2>头像与身份</h2></div>
+              <label>姓名<input name="name" required maxlength="100"></label>
+              <label>头像</label>
+              <div class="avatar-row">
+                <div class="avatar-preview"><img id="avatar-preview" alt="头像预览"></div>
+                <label class="file-button">选择新头像<input id="avatar-input" type="file" accept="image/jpeg,image/png,image/webp" hidden></label>
+              </div>
+              <label>侧栏简介（英文）<textarea name="bio_en" rows="3"></textarea></label>
+              <label>侧栏简介（中文）<textarea name="bio_zh" rows="3"></textarea></label>
+            </article>
+
+            <article class="form-card">
+              <div class="card-heading"><span>ABOUT</span><h2>主页介绍</h2></div>
+              <div class="field-pair">
+                <label>顶部短句（英文）<input name="kicker_en"></label>
+                <label>顶部短句（中文）<input name="kicker_zh"></label>
+              </div>
+              <label>完整介绍（英文）<textarea name="intro_en" rows="7" required></textarea></label>
+              <label>完整介绍（中文）<textarea name="intro_zh" rows="7"></textarea></label>
+            </article>
+
+            <article class="form-card">
+              <div class="card-heading"><span>RUNNING</span><h2>个人成绩与摘要</h2></div>
+              <div class="field-grid">
+                <label>5K PB<input name="pb_5k" placeholder="19:56"></label>
+                <label>半马 PB<input name="pb_half" placeholder="1:33:34"></label>
+                <label>越野爬升记录<input name="trail_elevation" placeholder="1116"></label>
+                <label>最近比赛<input name="latest_race"></label>
+                <label>最近距离<input name="latest_distance" placeholder="20.94 km"></label>
+                <label>最近爬升<input name="latest_elevation" placeholder="1116 m"></label>
+                <label>最近完赛<input name="latest_finish" placeholder="3:35:23"></label>
+              </div>
+            </article>
+            <button class="primary-action" type="submit">保存主页内容到本地</button>
+          </div>
+          <aside class="help-card"><span>HOW IT WORKS</span><h3>先保存，再发布</h3><p>点击保存只会修改你电脑里的数据，不会立刻影响线上网站。确认所有内容以后，到“发布网站”完成 Commit 和 Push。</p></aside>
+        </form>
+      </section>
+
+      <section class="view" id="view-blog">
+        <form id="blog-form" class="editor-layout">
+          <div class="form-stack">
+            <article class="form-card">
+              <div class="card-heading"><span>NEW POST</span><h2>新建 Blog</h2></div>
+              <label>文章标题<input name="title" required placeholder="今天想记录什么？"></label>
+              <div class="field-pair">
+                <label>发布日期<input name="date" type="date" required></label>
+                <label>英文短链接（可选）<input name="slug" placeholder="my-first-post"></label>
+              </div>
+              <label>摘要<textarea name="excerpt" rows="3" placeholder="显示在 Blog 列表中的简短介绍"></textarea></label>
+              <label>标签<input name="tags" placeholder="Running, Research, Life（用逗号分隔）"></label>
+              <label>正文（支持 Markdown）<textarea class="body-editor" name="body" rows="16" required placeholder="可以直接写普通文字。段落之间空一行，也支持 Markdown。"></textarea></label>
+              <label>文章图片</label>
+              <div class="dropzone" data-upload="blog">
+                <input type="file" multiple accept="image/jpeg,image/png,image/webp">
+                <strong>拖入照片，或点击选择</strong><small>最多 12 张，会自动优化尺寸</small>
+              </div>
+              <div class="upload-preview" data-preview="blog"></div>
+            </article>
+            <button class="primary-action" type="submit">创建 Blog 到本地</button>
+          </div>
+          <aside class="help-card"><span>RECENT POSTS</span><h3>已存在文章</h3><div id="post-list" class="mini-list"><p>还没有 Blog。</p></div></aside>
+        </form>
+      </section>
+
+      <section class="view" id="view-running">
+        <form id="running-form" class="editor-layout">
+          <div class="form-stack">
+            <article class="form-card">
+              <div class="card-heading"><span>NEW RUN LOG</span><h2>新增跑步或比赛记录</h2></div>
+              <div class="field-pair">
+                <label>英文名称<input name="name" required placeholder="Dongmingshan Trail Race"></label>
+                <label>中文名称<input name="name_zh" placeholder="东明山越野赛"></label>
+              </div>
+              <div class="field-grid">
+                <label>类型<select name="type"><option>Trail Race</option><option>Road Race</option><option>Marathon</option><option>Half Marathon</option><option>Relay</option><option>Training</option></select></label>
+                <label>日期<input name="date" type="date" required></label>
+                <label>成绩<input name="time" placeholder="3:35:23"></label>
+                <label>距离<input name="distance" placeholder="20.94 km"></label>
+                <label>爬升<input name="elevation" placeholder="1116 m"></label>
+              </div>
+              <label>记录（英文）<textarea name="note_en" rows="4" placeholder="Race story, terrain, weather, feeling..."></textarea></label>
+              <label>记录（中文）<textarea name="note_zh" rows="4" placeholder="比赛故事、路况、天气、感受……"></textarea></label>
+              <label>跑步照片</label>
+              <div class="dropzone" data-upload="running">
+                <input type="file" multiple accept="image/jpeg,image/png,image/webp">
+                <strong>拖入跑步照片，或点击选择</strong><small>至少 1 张，最多 12 张，会自动优化</small>
+              </div>
+              <div class="upload-preview" data-preview="running"></div>
+            </article>
+            <button class="primary-action" type="submit">保存跑步记录到本地</button>
+          </div>
+          <aside class="help-card"><span>RUN LOGS</span><h3>后台新增记录</h3><div id="running-list" class="mini-list"><p>还没有通过后台新增记录。</p></div></aside>
+        </form>
+      </section>
+
+      <section class="view" id="view-publish">
+        <div class="publish-grid">
+          <article class="publish-card">
+            <span>GIT STATUS</span><h2>准备发布</h2>
+            <p>这里会显示工作区中的所有改动，但发布按钮只会提交由内容后台管理的文件，不会碰其他正在开发的代码。</p>
+            <div id="git-files" class="git-files"><p>正在读取...</p></div>
+            <label>Commit 信息<input id="commit-message" value="Update website content"></label>
+            <button id="publish-button" class="publish-action">Commit 并 Push 到 main</button>
+            <p class="fine-print">推送后 GitHub Actions 会自动部署，通常需要 1–3 分钟。</p>
+          </article>
+          <article class="publish-side">
+            <div><span>BRANCH</span><strong id="publish-branch">...</strong></div>
+            <div><span>LAST COMMIT</span><strong id="publish-commit">...</strong></div>
+            <a href="https://github.com/pigwu/pigwu.github.io/actions" target="_blank" rel="noopener">查看部署状态 ↗</a>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>

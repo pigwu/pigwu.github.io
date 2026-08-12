@@ -7,6 +7,8 @@ classes: wide
 hide_title: true
 ---
 
+{% assign managed_running = site.data.site_content.running %}
+
 <div class="running-page" data-race-showcase>
   <section class="running-hero reveal">
     <div class="running-hero__copy">
@@ -18,19 +20,19 @@ hide_title: true
     <div class="running-hero__panel" aria-label="Running highlights">
       <div>
         <span data-en="Latest Race" data-zh="最近比赛">Latest Race</span>
-        <strong>Dongmingshan</strong>
+        <strong>{{ managed_running.latest_race }}</strong>
       </div>
       <div>
         <span data-en="Distance" data-zh="距离">Distance</span>
-        <strong>20.94 km</strong>
+        <strong>{{ managed_running.latest_distance }}</strong>
       </div>
       <div>
         <span data-en="Elevation" data-zh="爬升">Elevation</span>
-        <strong>1116 m</strong>
+        <strong>{{ managed_running.latest_elevation }}</strong>
       </div>
       <div>
         <span data-en="Finish" data-zh="完赛">Finish</span>
-        <strong>3:35:23</strong>
+        <strong>{{ managed_running.latest_finish }}</strong>
       </div>
     </div>
   </section>
@@ -43,15 +45,15 @@ hide_title: true
     <div class="pb-grid">
       <div class="pb-card">
         <p class="pb-label" data-en="5K Personal Best" data-zh="5公里最佳">5K Personal Best</p>
-        <p class="pb-value" data-target="19:56">19:56</p>
+        <p class="pb-value" data-target="{{ managed_running.pb_5k }}">{{ managed_running.pb_5k }}</p>
       </div>
       <div class="pb-card">
         <p class="pb-label" data-en="Half Marathon Personal Best" data-zh="半程马拉松最佳">Half Marathon Personal Best</p>
-        <p class="pb-value" data-target="1:33:34">1:33:34</p>
+        <p class="pb-value" data-target="{{ managed_running.pb_half }}">{{ managed_running.pb_half }}</p>
       </div>
       <div class="pb-card">
         <p class="pb-label" data-en="Trail Elevation Logged" data-zh="越野爬升记录">Trail Elevation Logged</p>
-        <p class="pb-value pb-value--plain" data-target="1116">1116m</p>
+        <p class="pb-value pb-value--plain" data-target="{{ managed_running.trail_elevation }}">{{ managed_running.trail_elevation }}m</p>
       </div>
     </div>
   </section>
@@ -295,6 +297,42 @@ hide_title: true
       </article>
     </div>
   </section>
+
+  {% if site.data.running_entries and site.data.running_entries.size > 0 %}
+  <section class="race-section reveal" aria-labelledby="managed-running-title">
+    <div class="section-heading">
+      <p data-en="Studio entries" data-zh="后台记录">Studio entries</p>
+      <h2 id="managed-running-title" data-en="Latest Running Logs" data-zh="最新跑步记录">Latest Running Logs</h2>
+    </div>
+    <div class="managed-running-grid">
+      {% for entry in site.data.running_entries %}
+      <article class="managed-running-card">
+        <div class="managed-running-card__media" data-managed-gallery>
+          {% for image in entry.images %}
+          <img src="{{ image | relative_url }}" alt="{{ entry.name | escape }} photo {{ forloop.index }}">
+          {% endfor %}
+          {% if entry.images.size > 1 %}
+          <span>{{ entry.images.size }} photos</span>
+          {% endif %}
+        </div>
+        <div class="managed-running-card__body">
+          <div class="race-details__topline">
+            <span>{{ entry.type }}</span>
+            <span>{{ entry.date }}</span>
+          </div>
+          <h3 data-en="{{ entry.name | escape }}" data-zh="{{ entry.name_zh | default: entry.name | escape }}">{{ entry.name }}</h3>
+          <p data-en="{{ entry.note_en | escape }}" data-zh="{{ entry.note_zh | default: entry.note_en | escape }}">{{ entry.note_en }}</p>
+          <dl class="managed-running-metrics">
+            {% if entry.time != "" %}<div><dt>Time</dt><dd>{{ entry.time }}</dd></div>{% endif %}
+            {% if entry.distance != "" %}<div><dt>Distance</dt><dd>{{ entry.distance }}</dd></div>{% endif %}
+            {% if entry.elevation != "" %}<div><dt>Elevation</dt><dd>{{ entry.elevation }}</dd></div>{% endif %}
+          </dl>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
 </div>
 
 <script src="{{ '/assets/js/running-tech.js' | relative_url }}" defer></script>

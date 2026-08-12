@@ -156,10 +156,27 @@ input:focus-visible {
 
 .club-brand {
   color: var(--club-text);
-  font-size: 0.82rem;
   font-weight: 800;
   text-decoration: none;
   text-transform: uppercase;
+}
+
+.club-brand__copy {
+  display: grid;
+  gap: 0.1rem;
+  line-height: 1;
+}
+
+.club-brand__copy span {
+  font-size: 0.86rem;
+  letter-spacing: 0.02em;
+}
+
+.club-brand__copy small {
+  color: var(--club-muted);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
 }
 
 .club-brand__mark {

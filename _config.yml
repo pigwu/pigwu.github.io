@@ -164,6 +164,8 @@ include:
   - _pages
   - files
 exclude:
+  - admin
+  - start-admin.cmd
   - "*.sublime-project"
   - "*.sublime-workspace"
   - .asset-cache

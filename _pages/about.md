@@ -8,18 +8,15 @@ redirect_from:
   - /about.html
 ---
 
+{% assign managed_profile = site.data.site_content.profile %}
+{% assign managed_about = site.data.site_content.about %}
+
 <div class="about-showcase">
   <section class="about-hero">
     <div class="about-hero__copy">
-      <p class="about-kicker" data-en="Westlake University | Undergraduate Researcher" data-zh="西湖大学 | 本科生研究员">Westlake University | Undergraduate Researcher</p>
-      <h1>Yunzhi WU</h1>
-      <p class="about-intro" data-en="I am an undergraduate student at Westlake University, based in Hangzhou, China. I am advised by Anpei Chen in the Inception 3D Lab. My research centers on world models and physical interaction driven by computer vision. I am excited by the idea of building agents that can understand dynamics, anticipate outcomes, and interact with the physical world in a grounded way." data-zh="我是西湖大学的本科生，位于中国杭州。我在 Inception 3D 实验室接受陈安培的指导。我的研究集中在世界模型和由计算机视觉驱动的物理交互。我对构建能够理解动态、预测结果并以扎实方式与物理世界交互的智能体感到兴奋。">
-        I am an undergraduate student at Westlake University, based in Hangzhou, China.
-        I am advised by <strong>Anpei Chen</strong> in the <strong>Inception 3D Lab</strong>.
-        My research centers on <strong>world models</strong> and
-        <strong>physical interaction driven by computer vision</strong>.
-        I am excited by the idea of building agents that can understand dynamics, anticipate outcomes, and interact with the physical world in a grounded way.
-      </p>
+      <p class="about-kicker" data-en="{{ managed_about.kicker_en | escape }}" data-zh="{{ managed_about.kicker_zh | escape }}">{{ managed_about.kicker_en }}</p>
+      <h1>{{ managed_profile.name }}</h1>
+      <p class="about-intro" data-en="{{ managed_about.intro_en | escape }}" data-zh="{{ managed_about.intro_zh | escape }}">{{ managed_about.intro_en }}</p>
       <div class="focus-pills">
         <span data-en="World Models" data-zh="世界模型">World Models</span>
         <span data-en="Computer Vision" data-zh="计算机视觉">Computer Vision</span>
