@@ -20,6 +20,10 @@ main:
     url: /running/
     title_zh: "跑步"
 
+  - title: "Memory Map"
+    url: /memory-map/
+    title_zh: "回忆地图"
+
   - title: "Blog"
     url: /blog/
     title_zh: "博客"

@@ -1,11 +1,18 @@
-const state = { content: null, runningEntries: [], posts: [], git: null, uploads: { blog: [], running: [] }, avatar: null };
+const state = { content: null, runningEntries: [], posts: [], memoryMap: null, git: null, uploads: { blog: [], running: [] }, avatar: null };
 const titles = {
   dashboard: ["CONTENT OVERVIEW", "网站内容工作台"],
   profile: ["PROFILE & ABOUT", "主页与介绍"],
   blog: ["JOURNAL EDITOR", "发布 Blog"],
   running: ["RUNNING ARCHIVE", "新增跑步记录"],
+  memory: ["MEMORY MAP", "回忆地图"],
   publish: ["SHIP TO GITHUB", "发布网站"]
 };
+const memoryStyles = [
+  ["expedition","Expedition Route","蜿蜒探险路线"],["metro","Metro Diagram","地铁线路与站点"],["passport","Passport Journal","护照手帐与印章"],
+  ["constellation","Constellation Trail","星座与发光轨迹"],["editorial","Editorial Magazine","非对称杂志跨栏"],["polaroid","Polaroid Wall","拍立得照片墙"],
+  ["brutalist","Brutalist Board","粗野主义信息网格"],["glass","Glass Atlas","玻璃地图与漂浮卡片"],["terminal","Terminal Log","命令行日志"],
+  ["orbital","Orbital Timeline","环形轨道节点"],["notebook","Research Notebook","研究笔记横线纸"],["museum","Museum Labels","横向博物馆展览"]
+];
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
@@ -51,7 +58,9 @@ function formValues(form) {
 }
 
 function today() {
-  return new Date().toISOString().slice(0, 10);
+  const date = new Date();
+  const offset = date.getTimezoneOffset() * 60000;
+  return new Date(date.getTime() - offset).toISOString().slice(0, 10);
 }
 
 function updateGit(git) {
@@ -90,6 +99,46 @@ function populateContent() {
   fillForm(form, { ...state.content.profile, ...state.content.about, ...state.content.running });
   $("#avatar-preview").src = `/site-images/${encodeURIComponent(state.content.profile.avatar)}?v=${Date.now()}`;
   renderLists();
+  populateMemory();
+}
+
+function memoryPreview() {
+  const frame = $("#memory-preview");
+  if (!frame?.contentWindow || !state.memoryMap) return;
+  const memory = structuredClone(state.memoryMap);
+  memory.days.forEach(day => {
+    day.previewImage = day.newImages?.[0]?.dataUrl || (day.images?.[0] ? `/site-images/${String(day.images[0]).replace(/^\/images\//,"")}` : "");
+  });
+  frame.contentWindow.postMessage({ type:"memory-preview", memory }, location.origin);
+}
+
+function renderMemoryStyles() {
+  $("#memory-style-grid").innerHTML = memoryStyles.map(([id,name,description]) => `<button type="button" class="memory-style ${state.memoryMap.style === id ? "is-active" : ""}" data-memory-style="${id}"><span class="memory-style__sketch memory-style__${id}"><i></i><i></i><i></i></span><strong>${name}</strong><small>${description}</small></button>`).join("");
+  $("#memory-preview-style").textContent = memoryStyles.find(style => style[0] === state.memoryMap.style)?.[1] || "Expedition Route";
+}
+
+function renderMemoryDays() {
+  const days = state.memoryMap.days;
+  $("#memory-day-list").innerHTML = days.length ? days.map((day,index) => `<article class="memory-day-editor">
+    <header><div><span>${String(index + 1).padStart(2,"0")}</span><strong>${escapeHtml(day.title || "New memory")}</strong></div><div><button type="button" data-memory-move="${index}:up" ${index === 0 ? "disabled" : ""}>↑ 上移</button><button type="button" data-memory-move="${index}:down" ${index === days.length - 1 ? "disabled" : ""}>↓ 下移</button><button type="button" class="danger" data-memory-delete="${index}">删除</button></div></header>
+    <div class="memory-day-editor__body"><div class="field-pair"><label>标题<input data-memory-field="${index}:title" value="${escapeHtml(day.title)}"></label><label>日期<input type="date" data-memory-field="${index}:date" value="${escapeHtml(day.date)}"></label><label>地点<input data-memory-field="${index}:location" value="${escapeHtml(day.location || "")}"></label><label>标签（逗号分隔）<input data-memory-field="${index}:tags" value="${escapeHtml((day.tags || []).join(", "))}"></label></div><label>卡片摘要<textarea rows="3" data-memory-field="${index}:summary">${escapeHtml(day.summary || "")}</textarea></label><label>点击后显示的完整故事<textarea rows="8" data-memory-field="${index}:body">${escapeHtml(day.body || "")}</textarea></label>
+    <label>照片（最多 12 张）</label><div class="memory-images">${(day.images || []).map((image,imageIndex) => `<div><img src="/site-images/${escapeHtml(String(image).replace(/^\/images\//,""))}" alt=""><button type="button" data-memory-image-remove="${index}:existing:${imageIndex}">×</button></div>`).join("")}${(day.newImages || []).map((image,imageIndex) => `<div><img src="${image.dataUrl}" alt=""><button type="button" data-memory-image-remove="${index}:new:${imageIndex}">×</button></div>`).join("")}</div><label class="memory-image-add">+ 选择照片<input type="file" multiple accept="image/jpeg,image/png,image/webp" data-memory-upload="${index}" hidden></label></div>
+  </article>`).join("") : `<div class="memory-zero"><strong>路线目前是空的</strong><p>点击“新日期”开始。日期可以随后自由增减。</p></div>`;
+  $$("[data-memory-field]").forEach(field => field.addEventListener("input", () => {
+    const [index,key] = field.dataset.memoryField.split(":");
+    state.memoryMap.days[index][key] = key === "tags" ? field.value.split(",").map(tag => tag.trim()).filter(Boolean) : field.value;
+    memoryPreview();
+  }));
+}
+
+function populateMemory() {
+  state.memoryMap ||= {eyebrow:"MEMORY MAP",title:"A route through days worth remembering.",description:"",style:"expedition",accent:"#df6c3f",background:"#f5f1e8",days:[]};
+  state.memoryMap.days ||= [];
+  state.memoryMap.days.forEach(day => day.newImages ||= []);
+  fillForm($("#memory-form"), state.memoryMap);
+  renderMemoryStyles();
+  renderMemoryDays();
+  memoryPreview();
 }
 
 function optimizeImage(file) {
@@ -146,6 +195,7 @@ async function load() {
     state.content = data.content;
     state.runningEntries = data.runningEntries;
     state.posts = data.posts;
+    state.memoryMap = data.memoryMap;
     updateGit(data.git);
     populateContent();
     $$("input[type=date]").forEach(input => { if (!input.value) input.value = today(); });
@@ -213,6 +263,26 @@ $("#running-form").addEventListener("submit", async event => {
   finally { button.disabled = false; }
 });
 
+$("#memory-form").addEventListener("input", event => {
+  if (!event.target.name || event.target.closest(".memory-day-editor")) return;
+  state.memoryMap[event.target.name] = event.target.value;
+  memoryPreview();
+});
+
+$("#memory-form").addEventListener("submit", async event => {
+  event.preventDefault();
+  const button = $("button[type=submit]", event.currentTarget);
+  button.disabled = true;
+  try {
+    const result = await api("/api/memory/save", { method:"POST", body:{ memory:state.memoryMap } });
+    state.memoryMap = result.memoryMap;
+    populateMemory();
+    await refreshGit();
+    showNotice("回忆地图已保存到本地。确认后可以统一发布。");
+  } catch (error) { showNotice(error.message, true); }
+  finally { button.disabled = false; }
+});
+
 $("#publish-button").addEventListener("click", async event => {
   const button = event.currentTarget;
   if (!state.git?.status.length) { showNotice("当前没有待发布的改动。", true); return; }
@@ -236,6 +306,36 @@ document.addEventListener("click", async event => {
     try { await api("/api/running/delete", { method: "POST", body: { id: deleteRun.dataset.deleteRun } }); state.runningEntries = state.runningEntries.filter(entry => entry.id !== deleteRun.dataset.deleteRun); renderLists(); await refreshGit(); showNotice("记录已从本地删除。"); }
     catch (error) { showNotice(error.message, true); }
   }
+  const style = event.target.closest("[data-memory-style]");
+  if (style) { state.memoryMap.style = style.dataset.memoryStyle; renderMemoryStyles(); memoryPreview(); }
+  if (event.target.closest("#memory-add-day")) {
+    state.memoryMap.days.push({id:`memory-${Date.now().toString(36)}`,date:today(),title:"New Memory",location:"",summary:"",body:"",images:[],newImages:[],tags:[]});
+    renderMemoryDays(); memoryPreview();
+  }
+  const move = event.target.closest("[data-memory-move]");
+  if (move) {
+    const [fromText,direction] = move.dataset.memoryMove.split(":"), from=Number(fromText), to=direction === "up" ? from-1 : from+1, days=state.memoryMap.days;
+    if (to >= 0 && to < days.length) { [days[from],days[to]]=[days[to],days[from]]; renderMemoryDays(); memoryPreview(); }
+  }
+  const deleteMemory = event.target.closest("[data-memory-delete]");
+  if (deleteMemory && confirm("删除这个日期节点吗？已保存的照片文件会暂时保留。")) { state.memoryMap.days.splice(Number(deleteMemory.dataset.memoryDelete),1); renderMemoryDays(); memoryPreview(); }
+  const removeMemoryImage = event.target.closest("[data-memory-image-remove]");
+  if (removeMemoryImage) { const [dayIndex,kind,imageIndex]=removeMemoryImage.dataset.memoryImageRemove.split(":"); state.memoryMap.days[dayIndex][kind === "new" ? "newImages" : "images"].splice(Number(imageIndex),1); renderMemoryDays(); memoryPreview(); }
+});
+
+document.addEventListener("change", async event => {
+  const upload = event.target.closest("[data-memory-upload]");
+  if (!upload) return;
+  try {
+    const images = await readFiles(upload.files);
+    const day = state.memoryMap.days[Number(upload.dataset.memoryUpload)];
+    day.newImages = [...(day.newImages || []), ...images].slice(0, Math.max(0, 12 - (day.images || []).length));
+    renderMemoryDays(); memoryPreview();
+  } catch (error) { showNotice(error.message, true); }
+});
+
+window.addEventListener("message", event => {
+  if (event.origin === location.origin && event.data?.type === "memory-preview-ready") memoryPreview();
 });
 
 setupDropzones();

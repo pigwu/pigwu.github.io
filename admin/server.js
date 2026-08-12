@@ -25,9 +25,14 @@ const MANAGED_PATHS = [
   "_data/site_content.json",
   "_data/running_entries.json",
   "_data/editor_assets.json",
+  "_data/memory_map.json",
   "_includes/author-profile.html",
   "_pages/about.md",
   "_pages/running.md",
+  "_pages/memory-map.html",
+  "assets/css/memory-map.css",
+  "assets/css/memory-page.css",
+  "assets/js/memory-map.js",
   "_sass/layout/_running-tech.scss",
   "_config.yml",
   "_posts",
@@ -165,6 +170,7 @@ async function handleApi(req, res, url) {
     sendJson(res, 200, {
       content: safeReadJson("_data/site_content.json", {}),
       runningEntries: safeReadJson("_data/running_entries.json", []),
+      memoryMap: safeReadJson("_data/memory_map.json", { days: [] }),
       posts: listPosts(),
       git: await gitState()
     });
@@ -287,6 +293,43 @@ async function handleApi(req, res, url) {
     const entries = safeReadJson("_data/running_entries.json", []);
     writeJson("_data/running_entries.json", entries.filter(entry => entry.id !== id));
     sendJson(res, 200, { ok: true });
+    return;
+  }
+
+  if (url.pathname === "/api/memory/save") {
+    const memory = body.memory || {};
+    const allowedStyles = new Set(["expedition", "metro", "passport", "constellation", "editorial", "polaroid", "brutalist", "glass", "terminal", "orbital", "notebook", "museum"]);
+    const color = (value, fallback) => /^#[0-9a-f]{6}$/i.test(String(value || "")) ? String(value) : fallback;
+    const days = (Array.isArray(memory.days) ? memory.days : []).slice(0, 100).map((day, index) => {
+      const title = cleanText(day.title, 180);
+      if (!title) throw new Error(`Memory ${index + 1} needs a title.`);
+      const date = /^\d{4}-\d{2}-\d{2}$/.test(day.date || "") ? day.date : "";
+      const id = cleanText(day.id, 180) || `memory-${Date.now().toString(36)}-${index + 1}`;
+      const existingImages = (Array.isArray(day.images) ? day.images : []).filter(image => /^\/images\/memories\/[a-z0-9._/-]+$/i.test(String(image))).slice(0, 12);
+      const prefix = slugify(`${date || "undated"}-${title}-${Date.now().toString(36)}-${index + 1}`);
+      const uploadedImages = saveImages(day.newImages, "images/memories", prefix);
+      return {
+        id,
+        date,
+        title,
+        location: cleanText(day.location, 180),
+        summary: cleanText(day.summary, 2000),
+        body: cleanText(day.body, 50000),
+        images: [...existingImages, ...uploadedImages].slice(0, 12),
+        tags: (Array.isArray(day.tags) ? day.tags : cleanText(day.tags, 500).split(",")).map(tag => cleanText(tag, 60)).filter(Boolean).slice(0, 12)
+      };
+    });
+    const next = {
+      eyebrow: cleanText(memory.eyebrow, 100) || "MEMORY MAP",
+      title: cleanText(memory.title, 240) || "A route through days worth remembering.",
+      description: cleanText(memory.description, 2000),
+      style: allowedStyles.has(memory.style) ? memory.style : "expedition",
+      accent: color(memory.accent, "#df6c3f"),
+      background: color(memory.background, "#f5f1e8"),
+      days
+    };
+    writeJson("_data/memory_map.json", next);
+    sendJson(res, 200, { ok: true, memoryMap: next });
     return;
   }
 

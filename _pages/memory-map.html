@@ -1,0 +1,41 @@
+---
+permalink: /memory-map/
+title: "Memory Map"
+author_profile: true
+classes: wide memory-map-page
+---
+
+<style>.memory-map-page .page__inner-wrap > header { display: none; }</style>
+<link rel="stylesheet" href="{{ '/assets/css/memory-map.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/memory-page.css' | relative_url }}">
+
+<div class="memory-page" style="--accent: {{ site.data.memory_map.accent | default: '#df6c3f' }}; --bg: {{ site.data.memory_map.background | default: '#f5f1e8' }};">
+  <header class="memory-page__hero">
+    <p id="memory-eyebrow">{{ site.data.memory_map.eyebrow }}</p>
+    <h1 id="memory-title">{{ site.data.memory_map.title }}</h1>
+    <div>
+      <p id="memory-description">{{ site.data.memory_map.description }}</p>
+      <span><i></i> CLICK A DATE TO OPEN THE MEMORY</span>
+    </div>
+  </header>
+
+  <main class="memory-map" id="memory-map" data-memory-style="{{ site.data.memory_map.style | default: 'expedition' }}">
+    <svg class="memory-route" aria-hidden="true"><path></path></svg>
+    <div class="memory-days" id="memory-days"></div>
+  </main>
+
+  <p class="memory-empty" id="memory-empty" hidden>
+    <span>ROUTE 00</span>
+    <strong>The map is ready for its first memory.</strong>
+    <small>Dates and stories can be added from the local Site Studio.</small>
+  </p>
+</div>
+
+<dialog class="memory-dialog" id="memory-dialog">
+  <button class="memory-dialog__close" type="button" aria-label="Close memory">×</button>
+  <article id="memory-detail"></article>
+</dialog>
+
+{% capture memory_map_json %}{{ site.data.memory_map | jsonify }}{% endcapture %}
+<script type="application/json" id="memory-map-data">{{ memory_map_json | replace: '</', '<\/' }}</script>
+<script defer src="{{ '/assets/js/memory-map.js' | relative_url }}"></script>

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Yunzhi Site Studio</title>
   <link rel="stylesheet" href="/app.css">
+  <link rel="stylesheet" href="/memory-editor.css">
 </head>
 <body>
   <div class="studio-shell">
@@ -18,7 +19,8 @@
         <button class="nav-item" data-view="profile"><span>02</span>主页与介绍</button>
         <button class="nav-item" data-view="blog"><span>03</span>发布 Blog</button>
         <button class="nav-item" data-view="running"><span>04</span>跑步记录</button>
-        <button class="nav-item" data-view="publish"><span>05</span>发布网站</button>
+        <button class="nav-item" data-view="memory"><span>05</span>回忆地图</button>
+        <button class="nav-item" data-view="publish"><span>06</span>发布网站</button>
       </nav>
       <div class="local-badge"><i></i>仅在本机运行</div>
     </aside>
@@ -47,6 +49,7 @@
           <button class="quick-card" data-jump="profile"><span>PROFILE</span><strong>修改主页介绍</strong><small>头像、中英文介绍、PB</small></button>
           <button class="quick-card" data-jump="blog"><span>JOURNAL</span><strong>写一篇 Blog</strong><small>正文、标签、多图上传</small></button>
           <button class="quick-card" data-jump="running"><span>RUN LOG</span><strong>新增跑步记录</strong><small>赛事数据与多图</small></button>
+          <button class="quick-card" data-jump="memory"><span>MEMORY MAP</span><strong>编辑回忆路线</strong><small>日期、故事、照片与 12 种布局</small></button>
           <button class="quick-card accent" data-jump="publish"><span>SHIP</span><strong>查看并发布</strong><small>Commit + Push 到 main</small></button>
         </div>
         <div class="status-card">
@@ -154,6 +157,28 @@
           </div>
           <aside class="help-card"><span>RUN LOGS</span><h3>后台新增记录</h3><div id="running-list" class="mini-list"><p>还没有通过后台新增记录。</p></div></aside>
         </form>
+      </section>
+
+      <section class="view" id="view-memory">
+        <div class="memory-workspace">
+          <form id="memory-form" class="form-stack">
+            <article class="form-card">
+              <div class="card-heading"><span>MEMORY MAP</span><h2>回忆地图设置</h2></div>
+              <div class="field-pair"><label>顶部标签<input name="eyebrow"></label><label>地图标题<input name="title" required></label></div>
+              <label>地图介绍<textarea name="description" rows="4"></textarea></label>
+              <div class="field-pair"><label>强调色<input name="accent" type="color"></label><label>背景色<input name="background" type="color"></label></div>
+            </article>
+            <article class="form-card">
+              <div class="card-heading"><span>12 STRUCTURAL STYLES</span><h2>选择整体地图样式</h2></div>
+              <p class="memory-hint">每种方案会改变路线、节点、卡片、图片和信息密度，而不只是更换颜色。</p>
+              <div id="memory-style-grid" class="memory-style-grid"></div>
+            </article>
+            <div class="memory-section-head"><div><span>DATE STOPS</span><h2>日期节点</h2><p>可以自由新增、删除、修改日期或上下移动。每一天支持多张照片。</p></div><button type="button" class="memory-add" id="memory-add-day">+ 新日期</button></div>
+            <div id="memory-day-list" class="memory-day-list"></div>
+            <button class="primary-action" type="submit">保存回忆地图到本地</button>
+          </form>
+          <aside class="memory-preview-panel"><div><span>LIVE PREVIEW</span><strong id="memory-preview-style">Expedition Route</strong></div><iframe id="memory-preview" src="/memory-preview.html" title="Memory map live preview"></iframe></aside>
+        </div>
       </section>
 
       <section class="view" id="view-publish">
