@@ -4,6 +4,27 @@
 
 <!-- Support for Academicons -->
 <link rel="stylesheet" href="{{ base_path }}/assets/css/academicons.css"/>
+<link rel="stylesheet" href="{{ base_path }}/assets/css/component-design.css"/>
+{% assign component_design = site.data.component_design %}
+<style>
+  :root {
+    --custom-avatar-border-width: {{ component_design.avatarBorderWidth | default: 1 }}px;
+    --custom-avatar-border-color: {{ component_design.avatarBorderColor | default: '#43d9ff' }};
+    --custom-card-border-width: {{ component_design.cardBorderWidth | default: 1 }}px;
+    --custom-card-border-color: {{ component_design.cardBorderColor | default: '#43d9ff' }};
+    --custom-line-width: {{ component_design.lineWidth | default: 1 }}px;
+    --custom-line-color: {{ component_design.lineColor | default: '#43d9ff' }};
+  }
+</style>
+<script>
+  document.documentElement.dataset.avatarShape = {{ component_design.avatarShape | default: 'circle' | jsonify }};
+  document.documentElement.dataset.avatarBorder = {{ component_design.avatarBorderStyle | default: 'solid' | jsonify }};
+  document.documentElement.dataset.cardShape = {{ component_design.cardShape | default: 'rounded' | jsonify }};
+  document.documentElement.dataset.cardBorder = {{ component_design.cardBorderStyle | default: 'solid' | jsonify }};
+  document.documentElement.dataset.cardShadow = {{ component_design.cardShadow | default: 'soft' | jsonify }};
+  document.documentElement.dataset.buttonShape = {{ component_design.buttonShape | default: 'pill' | jsonify }};
+  document.documentElement.dataset.lineStyle = {{ component_design.lineStyle | default: 'solid' | jsonify }};
+</script>
 
 <!-- favicon from https://commons.wikimedia.org/wiki/File:OOjs_UI_icon_academic-progressive.svg -->
 <link rel="apple-touch-icon" sizes="180x180" href="{{ base_path }}/images/apple-touch-icon-180x180.png"/>

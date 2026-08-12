@@ -1,10 +1,11 @@
-const state = { content: null, runningEntries: [], posts: [], memoryMap: null, git: null, uploads: { blog: [], running: [] }, avatar: null };
+const state = { content: null, runningEntries: [], posts: [], memoryMap: null, componentDesign: null, git: null, uploads: { blog: [], running: [] }, avatar: null };
 const titles = {
   dashboard: ["CONTENT OVERVIEW", "网站内容工作台"],
   profile: ["PROFILE & ABOUT", "主页与介绍"],
   blog: ["JOURNAL EDITOR", "发布 Blog"],
   running: ["RUNNING ARCHIVE", "新增跑步记录"],
   memory: ["MEMORY MAP", "回忆地图"],
+  design: ["COMPONENT LAB", "外观与组件"],
   publish: ["SHIP TO GITHUB", "发布网站"]
 };
 const memoryStyles = [
@@ -100,6 +101,49 @@ function populateContent() {
   $("#avatar-preview").src = `/site-images/${encodeURIComponent(state.content.profile.avatar)}?v=${Date.now()}`;
   renderLists();
   populateMemory();
+  populateDesign();
+}
+
+const designDefaults = {
+  avatarShape:"circle",avatarBorderStyle:"solid",avatarBorderWidth:1,avatarBorderColor:"#43d9ff",
+  cardShape:"rounded",cardBorderStyle:"solid",cardBorderWidth:1,cardBorderColor:"#43d9ff",
+  cardShadow:"soft",buttonShape:"pill",lineStyle:"solid",lineWidth:1,lineColor:"#43d9ff"
+};
+
+function designRadius(shape) {
+  return ({sharp:"0",subtle:"8px",rounded:"22px",capsule:"44px",cut:"0"})[shape] || "22px";
+}
+
+function renderDesignPreview() {
+  const design = state.componentDesign;
+  const canvas = $(".design-preview__canvas");
+  if (!design || !canvas) return;
+  const avatar = {
+    circle:["50%","none"],rounded:["24px","none"],arch:["50% 50% 8px 8px","none"],square:["0","none"],
+    diamond:["0","polygon(50% 0,100% 50%,50% 100%,0 50%)"],blob:["63% 37% 58% 42%/44% 61% 39% 56%","none"]
+  }[design.avatarShape] || ["50%","none"];
+  const shadows = {
+    none:"none",soft:"0 18px 48px -25px #000a",lifted:"0 30px 70px -22px #000d",
+    hard:`9px 9px 0 ${design.cardBorderColor}`,glow:`0 0 0 1px ${design.cardBorderColor},0 0 32px ${design.cardBorderColor}88`
+  };
+  const cardClip = design.cardShape === "cut" ? "polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px)" : "none";
+  Object.entries({
+    "--preview-avatar-radius":avatar[0],"--preview-avatar-clip":avatar[1],"--preview-avatar-border-style":design.avatarBorderStyle,
+    "--preview-avatar-border-width":`${design.avatarBorderWidth}px`,"--preview-avatar-border-color":design.avatarBorderColor,
+    "--preview-card-radius":designRadius(design.cardShape),"--preview-card-clip":cardClip,"--preview-card-border-style":design.cardBorderStyle,
+    "--preview-card-border-width":`${design.cardBorderWidth}px`,"--preview-card-border-color":design.cardBorderColor,
+    "--preview-card-shadow":shadows[design.cardShadow] || shadows.soft,
+    "--preview-button-radius":design.buttonShape === "square" ? "0" : design.buttonShape === "rounded" ? "9px" : "999px",
+    "--preview-line-style":design.lineStyle,"--preview-line-width":`${design.lineWidth}px`,"--preview-line-color":design.lineColor
+  }).forEach(([key,value]) => canvas.style.setProperty(key,value));
+  $$("[data-design-output]").forEach(output => output.textContent = `${design[output.dataset.designOutput]}px`);
+}
+
+function populateDesign() {
+  state.componentDesign = {...designDefaults,...(state.componentDesign || {})};
+  fillForm($("#design-form"), state.componentDesign);
+  $("#design-avatar").src = `/site-images/${encodeURIComponent(state.content.profile.avatar)}?v=${Date.now()}`;
+  renderDesignPreview();
 }
 
 function memoryPreview() {
@@ -196,6 +240,7 @@ async function load() {
     state.runningEntries = data.runningEntries;
     state.posts = data.posts;
     state.memoryMap = data.memoryMap;
+    state.componentDesign = data.componentDesign;
     updateGit(data.git);
     populateContent();
     $$("input[type=date]").forEach(input => { if (!input.value) input.value = today(); });
@@ -283,6 +328,26 @@ $("#memory-form").addEventListener("submit", async event => {
   finally { button.disabled = false; }
 });
 
+$("#design-form").addEventListener("input", event => {
+  if (!event.target.name) return;
+  state.componentDesign[event.target.name] = event.target.type === "range" ? Number(event.target.value) : event.target.value;
+  renderDesignPreview();
+});
+
+$("#design-form").addEventListener("submit", async event => {
+  event.preventDefault();
+  const button = $("button[type=submit]", event.currentTarget);
+  button.disabled = true;
+  try {
+    const result = await api("/api/design/save", {method:"POST",body:{design:state.componentDesign}});
+    state.componentDesign = result.componentDesign;
+    populateDesign();
+    await refreshGit();
+    showNotice("组件外观已保存到本地。发布后会应用到整个网站。");
+  } catch (error) { showNotice(error.message,true); }
+  finally { button.disabled = false; }
+});
+
 $("#publish-button").addEventListener("click", async event => {
   const button = event.currentTarget;
   if (!state.git?.status.length) { showNotice("当前没有待发布的改动。", true); return; }
@@ -321,6 +386,10 @@ document.addEventListener("click", async event => {
   if (deleteMemory && confirm("删除这个日期节点吗？已保存的照片文件会暂时保留。")) { state.memoryMap.days.splice(Number(deleteMemory.dataset.memoryDelete),1); renderMemoryDays(); memoryPreview(); }
   const removeMemoryImage = event.target.closest("[data-memory-image-remove]");
   if (removeMemoryImage) { const [dayIndex,kind,imageIndex]=removeMemoryImage.dataset.memoryImageRemove.split(":"); state.memoryMap.days[dayIndex][kind === "new" ? "newImages" : "images"].splice(Number(imageIndex),1); renderMemoryDays(); memoryPreview(); }
+  if (event.target.closest("#design-reset")) {
+    state.componentDesign = {...designDefaults};
+    populateDesign();
+  }
 });
 
 document.addEventListener("change", async event => {

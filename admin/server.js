@@ -26,6 +26,7 @@ const MANAGED_PATHS = [
   "_data/running_entries.json",
   "_data/editor_assets.json",
   "_data/memory_map.json",
+  "_data/component_design.json",
   "_includes/author-profile.html",
   "_pages/about.md",
   "_pages/running.md",
@@ -33,6 +34,8 @@ const MANAGED_PATHS = [
   "assets/css/memory-map.css",
   "assets/css/memory-page.css",
   "assets/js/memory-map.js",
+  "assets/css/component-design.css",
+  "_includes/head/custom.html",
   "_sass/layout/_running-tech.scss",
   "_config.yml",
   "_posts",
@@ -171,6 +174,7 @@ async function handleApi(req, res, url) {
       content: safeReadJson("_data/site_content.json", {}),
       runningEntries: safeReadJson("_data/running_entries.json", []),
       memoryMap: safeReadJson("_data/memory_map.json", { days: [] }),
+      componentDesign: safeReadJson("_data/component_design.json", {}),
       posts: listPosts(),
       git: await gitState()
     });
@@ -330,6 +334,34 @@ async function handleApi(req, res, url) {
     };
     writeJson("_data/memory_map.json", next);
     sendJson(res, 200, { ok: true, memoryMap: next });
+    return;
+  }
+
+  if (url.pathname === "/api/design/save") {
+    const design = body.design || {};
+    const choice = (value, allowed, fallback) => allowed.includes(value) ? value : fallback;
+    const number = (value, min, max, fallback) => {
+      const parsed = Number(value);
+      return Number.isFinite(parsed) ? Math.max(min, Math.min(max, parsed)) : fallback;
+    };
+    const color = (value, fallback) => /^#[0-9a-f]{6}$/i.test(String(value || "")) ? String(value) : fallback;
+    const next = {
+      avatarShape: choice(design.avatarShape, ["circle","rounded","arch","square","diamond","blob"], "circle"),
+      avatarBorderStyle: choice(design.avatarBorderStyle, ["none","solid","double","dashed","dotted"], "solid"),
+      avatarBorderWidth: number(design.avatarBorderWidth, 0, 12, 1),
+      avatarBorderColor: color(design.avatarBorderColor, "#43d9ff"),
+      cardShape: choice(design.cardShape, ["sharp","subtle","rounded","capsule","cut"], "rounded"),
+      cardBorderStyle: choice(design.cardBorderStyle, ["none","solid","double","dashed","dotted"], "solid"),
+      cardBorderWidth: number(design.cardBorderWidth, 0, 8, 1),
+      cardBorderColor: color(design.cardBorderColor, "#43d9ff"),
+      cardShadow: choice(design.cardShadow, ["none","soft","lifted","hard","glow"], "soft"),
+      buttonShape: choice(design.buttonShape, ["square","rounded","pill"], "pill"),
+      lineStyle: choice(design.lineStyle, ["none","solid","double","dashed","dotted"], "solid"),
+      lineWidth: number(design.lineWidth, 0, 8, 1),
+      lineColor: color(design.lineColor, "#43d9ff")
+    };
+    writeJson("_data/component_design.json", next);
+    sendJson(res, 200, { ok: true, componentDesign: next });
     return;
   }
 

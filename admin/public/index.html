@@ -6,6 +6,7 @@
   <title>Yunzhi Site Studio</title>
   <link rel="stylesheet" href="/app.css">
   <link rel="stylesheet" href="/memory-editor.css">
+  <link rel="stylesheet" href="/design-editor.css">
 </head>
 <body>
   <div class="studio-shell">
@@ -20,7 +21,8 @@
         <button class="nav-item" data-view="blog"><span>03</span>发布 Blog</button>
         <button class="nav-item" data-view="running"><span>04</span>跑步记录</button>
         <button class="nav-item" data-view="memory"><span>05</span>回忆地图</button>
-        <button class="nav-item" data-view="publish"><span>06</span>发布网站</button>
+        <button class="nav-item" data-view="design"><span>06</span>外观与组件</button>
+        <button class="nav-item" data-view="publish"><span>07</span>发布网站</button>
       </nav>
       <div class="local-badge"><i></i>仅在本机运行</div>
     </aside>
@@ -50,6 +52,7 @@
           <button class="quick-card" data-jump="blog"><span>JOURNAL</span><strong>写一篇 Blog</strong><small>正文、标签、多图上传</small></button>
           <button class="quick-card" data-jump="running"><span>RUN LOG</span><strong>新增跑步记录</strong><small>赛事数据与多图</small></button>
           <button class="quick-card" data-jump="memory"><span>MEMORY MAP</span><strong>编辑回忆路线</strong><small>日期、故事、照片与 12 种布局</small></button>
+          <button class="quick-card" data-jump="design"><span>COMPONENTS</span><strong>自定义框与线条</strong><small>头像、文本框、按钮、阴影</small></button>
           <button class="quick-card accent" data-jump="publish"><span>SHIP</span><strong>查看并发布</strong><small>Commit + Push 到 main</small></button>
         </div>
         <div class="status-card">
@@ -179,6 +182,57 @@
           </form>
           <aside class="memory-preview-panel"><div><span>LIVE PREVIEW</span><strong id="memory-preview-style">Expedition Route</strong></div><iframe id="memory-preview" src="/memory-preview.html" title="Memory map live preview"></iframe></aside>
         </div>
+      </section>
+
+      <section class="view" id="view-design">
+        <form id="design-form" class="design-workspace">
+          <div class="form-stack">
+            <article class="form-card">
+              <div class="card-heading"><span>AVATAR FRAME</span><h2>头像框</h2></div>
+              <div class="field-pair">
+                <label>头像轮廓<select name="avatarShape"><option value="circle">圆形</option><option value="rounded">圆角方形</option><option value="arch">拱门形</option><option value="square">直角方形</option><option value="diamond">菱形</option><option value="blob">有机圆形</option></select></label>
+                <label>边框线型<select name="avatarBorderStyle"><option value="none">无边框</option><option value="solid">实线</option><option value="double">双线</option><option value="dashed">虚线</option><option value="dotted">点线</option></select></label>
+                <label>边框粗细 <output data-design-output="avatarBorderWidth"></output><input name="avatarBorderWidth" type="range" min="0" max="12"></label>
+                <label>边框颜色<input name="avatarBorderColor" type="color"></label>
+              </div>
+            </article>
+            <article class="form-card">
+              <div class="card-heading"><span>TEXT & CONTENT BOXES</span><h2>文本框与内容卡片</h2></div>
+              <div class="field-pair">
+                <label>框体形状<select name="cardShape"><option value="sharp">直角</option><option value="subtle">微圆角</option><option value="rounded">大圆角</option><option value="capsule">胶囊感</option><option value="cut">切角</option></select></label>
+                <label>边线样式<select name="cardBorderStyle"><option value="none">无边线</option><option value="solid">实线</option><option value="double">双线</option><option value="dashed">虚线</option><option value="dotted">点线</option></select></label>
+                <label>边线粗细 <output data-design-output="cardBorderWidth"></output><input name="cardBorderWidth" type="range" min="0" max="8"></label>
+                <label>边线颜色<input name="cardBorderColor" type="color"></label>
+                <label>阴影风格<select name="cardShadow"><option value="none">无阴影</option><option value="soft">柔和</option><option value="lifted">悬浮</option><option value="hard">硬边</option><option value="glow">光晕</option></select></label>
+                <label>按钮形状<select name="buttonShape"><option value="square">直角</option><option value="rounded">圆角</option><option value="pill">胶囊</option></select></label>
+              </div>
+            </article>
+            <article class="form-card">
+              <div class="card-heading"><span>LINES</span><h2>分隔线</h2></div>
+              <div class="field-pair">
+                <label>线条样式<select name="lineStyle"><option value="none">隐藏</option><option value="solid">实线</option><option value="double">双线</option><option value="dashed">虚线</option><option value="dotted">点线</option></select></label>
+                <label>线条粗细 <output data-design-output="lineWidth"></output><input name="lineWidth" type="range" min="0" max="8"></label>
+                <label>线条颜色<input name="lineColor" type="color"></label>
+              </div>
+            </article>
+            <div class="design-actions"><button class="primary-action" type="submit">保存组件外观到本地</button><button type="button" class="design-reset" id="design-reset">恢复默认</button></div>
+          </div>
+          <aside class="design-preview" id="design-preview">
+            <div class="design-preview__top"><span>LIVE COMPONENT LAB</span><strong>实时预览</strong></div>
+            <div class="design-preview__canvas">
+              <div class="design-avatar"><img id="design-avatar" alt="头像样式预览"></div>
+              <div class="design-line"></div>
+              <article class="design-card">
+                <span>WORLD MODELS / VISION</span>
+                <h3>Design the details.</h3>
+                <p>这里预览头像框、文本框形状、边线、阴影和按钮的组合效果。</p>
+                <button type="button">Sample button</button>
+              </article>
+              <div class="design-line"></div>
+              <small>Changes appear instantly. Save when the combination feels right.</small>
+            </div>
+          </aside>
+        </form>
       </section>
 
       <section class="view" id="view-publish">
