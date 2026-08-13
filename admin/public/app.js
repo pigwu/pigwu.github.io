@@ -14,6 +14,7 @@ const memoryStyles = [
   ["brutalist","Brutalist Board","粗野主义信息网格"],["glass","Glass Atlas","玻璃地图与漂浮卡片"],["terminal","Terminal Log","命令行日志"],
   ["orbital","Orbital Timeline","环形轨道节点"],["notebook","Research Notebook","研究笔记横线纸"],["museum","Museum Labels","横向博物馆展览"]
 ];
+let activeMemoryYear = new Date().getFullYear();
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
@@ -153,33 +154,97 @@ function memoryPreview() {
   memory.days.forEach(day => {
     day.previewImage = day.newImages?.[0]?.dataUrl || (day.images?.[0] ? `/site-images/${String(day.images[0]).replace(/^\/images\//,"")}` : "");
   });
+  memory.years.forEach(year => {
+    year.background.previewImage = year.background.newImage?.dataUrl || (year.background.image ? `/site-images/${String(year.background.image).replace(/^\/images\//,"")}` : "");
+  });
+  memory.activeYear = activeMemoryYear;
   frame.contentWindow.postMessage({ type:"memory-preview", memory }, location.origin);
 }
 
+function normalizeMemory() {
+  const memory = state.memoryMap ||= {};
+  memory.eyebrow_en ||= memory.eyebrow || "MEMORY MAP";
+  memory.eyebrow_zh ||= "回忆地图";
+  memory.title_en ||= memory.title || "A route through days worth remembering.";
+  memory.title_zh ||= memory.title_en;
+  memory.description_en ||= memory.description || "";
+  memory.description_zh ||= memory.description_en;
+  memory.days ||= [];
+  memory.years ||= [];
+  const defaults = year => ({year,title_en:`${year} in memories`,title_zh:`${year} 年回忆`,style:memory.style || "expedition",accent:memory.accent || "#df6c3f",background:{mode:"solid",color:memory.background || "#f5f1e8",from:"#f5f1e8",to:"#dce9e6",angle:135,image:""}});
+  memory.days.forEach(day => {
+    day.newImages ||= [];
+    day.title_en ||= day.title || "New Memory"; day.title_zh ||= day.title_en;
+    day.location_en ||= day.location || ""; day.location_zh ||= day.location_en;
+    day.summary_en ||= day.summary || ""; day.summary_zh ||= day.summary_en;
+    day.body_en ||= day.body || ""; day.body_zh ||= day.body_en;
+    const year = Number(String(day.date || "").slice(0,4));
+    if (year && !memory.years.some(item => Number(item.year) === year)) memory.years.push(defaults(year));
+  });
+  if (!memory.years.length) memory.years.push(defaults(new Date().getFullYear()));
+  memory.years = memory.years.map(item => ({...defaults(Number(item.year)),...item,year:Number(item.year),background:{...defaults(Number(item.year)).background,...(item.background || {})}})).sort((a,b)=>b.year-a.year);
+  if (!memory.years.some(item => item.year === activeMemoryYear)) activeMemoryYear = memory.years.some(item => item.year === new Date().getFullYear()) ? new Date().getFullYear() : memory.years[0].year;
+}
+
+function activeYearSettings() {
+  return state.memoryMap.years.find(item => Number(item.year) === Number(activeMemoryYear)) || state.memoryMap.years[0];
+}
+
+function renderMemoryYears() {
+  const year = activeYearSettings();
+  $("#memory-year-editor-tabs").innerHTML = state.memoryMap.years.map(item => `<button type="button" class="${item.year === activeMemoryYear ? "is-active" : ""}" data-memory-edit-year="${item.year}">${item.year}</button>`).join("");
+  $("#memory-year-value").value = year.year;
+  $("#memory-year-title-en").value = year.title_en || "";
+  $("#memory-year-title-zh").value = year.title_zh || "";
+  $("#memory-year-accent").value = year.accent;
+  $("#memory-year-bg-mode").value = year.background.mode;
+  $("#memory-year-bg-color").value = year.background.color;
+  $("#memory-year-bg-from").value = year.background.from;
+  $("#memory-year-bg-to").value = year.background.to;
+  $("#memory-year-bg-angle").value = year.background.angle;
+  $("#memory-year-bg-name").textContent = year.background.newImage?.name || year.background.image?.split("/").pop() || "未选择年度背景图";
+  const bindings = {"memory-year-title-en":"title_en","memory-year-title-zh":"title_zh","memory-year-accent":"accent"};
+  Object.entries(bindings).forEach(([id,key]) => $("#"+id).oninput = event => { year[key]=event.target.value; memoryPreview(); });
+  const backgrounds = {"memory-year-bg-mode":"mode","memory-year-bg-color":"color","memory-year-bg-from":"from","memory-year-bg-to":"to","memory-year-bg-angle":"angle"};
+  Object.entries(backgrounds).forEach(([id,key]) => $("#"+id).oninput = event => { year.background[key]=key === "angle" ? Number(event.target.value) : event.target.value; memoryPreview(); });
+  $("#memory-year-value").onchange = event => {
+    const next = Math.max(1900,Math.min(2200,Number(event.target.value)||year.year)), previous=year.year;
+    if (next !== previous && state.memoryMap.years.some(item => item !== year && item.year === next)) { showNotice("这个年份已经存在。",true); event.target.value=previous; return; }
+    year.year=next; activeMemoryYear=next;
+    state.memoryMap.days.forEach(day => { if (String(day.date||"").startsWith(`${previous}-`)) day.date=`${next}${day.date.slice(4)}`; });
+    state.memoryMap.years.sort((a,b)=>b.year-a.year); renderMemoryYears(); renderMemoryDays(); memoryPreview();
+  };
+}
+
 function renderMemoryStyles() {
-  $("#memory-style-grid").innerHTML = memoryStyles.map(([id,name,description]) => `<button type="button" class="memory-style ${state.memoryMap.style === id ? "is-active" : ""}" data-memory-style="${id}"><span class="memory-style__sketch memory-style__${id}"><i></i><i></i><i></i></span><strong>${name}</strong><small>${description}</small></button>`).join("");
-  $("#memory-preview-style").textContent = memoryStyles.find(style => style[0] === state.memoryMap.style)?.[1] || "Expedition Route";
+  const style = activeYearSettings().style;
+  $("#memory-style-grid").innerHTML = memoryStyles.map(([id,name,description]) => `<button type="button" class="memory-style ${style === id ? "is-active" : ""}" data-memory-style="${id}"><span class="memory-style__sketch memory-style__${id}"><i></i><i></i><i></i></span><strong>${name}</strong><small>${description}</small></button>`).join("");
+  $("#memory-preview-style").textContent = `${activeMemoryYear} · ${memoryStyles.find(item => item[0] === style)?.[1] || "Expedition Route"}`;
 }
 
 function renderMemoryDays() {
-  const days = state.memoryMap.days;
-  $("#memory-day-list").innerHTML = days.length ? days.map((day,index) => `<article class="memory-day-editor">
-    <header><div><span>${String(index + 1).padStart(2,"0")}</span><strong>${escapeHtml(day.title || "New memory")}</strong></div><div><button type="button" data-memory-move="${index}:up" ${index === 0 ? "disabled" : ""}>↑ 上移</button><button type="button" data-memory-move="${index}:down" ${index === days.length - 1 ? "disabled" : ""}>↓ 下移</button><button type="button" class="danger" data-memory-delete="${index}">删除</button></div></header>
-    <div class="memory-day-editor__body"><div class="field-pair"><label>标题<input data-memory-field="${index}:title" value="${escapeHtml(day.title)}"></label><label>日期<input type="date" data-memory-field="${index}:date" value="${escapeHtml(day.date)}"></label><label>地点<input data-memory-field="${index}:location" value="${escapeHtml(day.location || "")}"></label><label>标签（逗号分隔）<input data-memory-field="${index}:tags" value="${escapeHtml((day.tags || []).join(", "))}"></label></div><label>卡片摘要<textarea rows="3" data-memory-field="${index}:summary">${escapeHtml(day.summary || "")}</textarea></label><label>点击后显示的完整故事<textarea rows="8" data-memory-field="${index}:body">${escapeHtml(day.body || "")}</textarea></label>
+  const entries = state.memoryMap.days.map((day,index)=>({day,index})).filter(({day})=>String(day.date||"").startsWith(`${activeMemoryYear}-`));
+  $("#memory-day-list").innerHTML = entries.length ? entries.map(({day,index},position) => `<article class="memory-day-editor">
+    <header><div><span>${String(position + 1).padStart(2,"0")}</span><strong>${escapeHtml(day.title_en || "New memory")}</strong></div><div><button type="button" data-memory-move="${index}:up" ${position === 0 ? "disabled" : ""}>↑ 上移</button><button type="button" data-memory-move="${index}:down" ${position === entries.length - 1 ? "disabled" : ""}>↓ 下移</button><button type="button" class="danger" data-memory-delete="${index}">删除</button></div></header>
+    <div class="memory-day-editor__body"><div class="field-pair"><label>标题（英文）<input data-memory-field="${index}:title_en" value="${escapeHtml(day.title_en)}"></label><label>标题（中文）<input data-memory-field="${index}:title_zh" value="${escapeHtml(day.title_zh)}"></label><label>日期<input type="date" data-memory-field="${index}:date" value="${escapeHtml(day.date)}"></label><label>标签（逗号分隔）<input data-memory-field="${index}:tags" value="${escapeHtml((day.tags || []).join(", "))}"></label><label>地点（英文）<input data-memory-field="${index}:location_en" value="${escapeHtml(day.location_en || "")}"></label><label>地点（中文）<input data-memory-field="${index}:location_zh" value="${escapeHtml(day.location_zh || "")}"></label></div><label>卡片摘要（英文）<textarea rows="3" data-memory-field="${index}:summary_en">${escapeHtml(day.summary_en || "")}</textarea></label><label>卡片摘要（中文）<textarea rows="3" data-memory-field="${index}:summary_zh">${escapeHtml(day.summary_zh || "")}</textarea></label><label>完整故事（英文）<textarea rows="6" data-memory-field="${index}:body_en">${escapeHtml(day.body_en || "")}</textarea></label><label>完整故事（中文）<textarea rows="6" data-memory-field="${index}:body_zh">${escapeHtml(day.body_zh || "")}</textarea></label>
     <label>照片（最多 12 张）</label><div class="memory-images">${(day.images || []).map((image,imageIndex) => `<div><img src="/site-images/${escapeHtml(String(image).replace(/^\/images\//,""))}" alt=""><button type="button" data-memory-image-remove="${index}:existing:${imageIndex}">×</button></div>`).join("")}${(day.newImages || []).map((image,imageIndex) => `<div><img src="${image.dataUrl}" alt=""><button type="button" data-memory-image-remove="${index}:new:${imageIndex}">×</button></div>`).join("")}</div><label class="memory-image-add">+ 选择照片<input type="file" multiple accept="image/jpeg,image/png,image/webp" data-memory-upload="${index}" hidden></label></div>
   </article>`).join("") : `<div class="memory-zero"><strong>路线目前是空的</strong><p>点击“新日期”开始。日期可以随后自由增减。</p></div>`;
   $$("[data-memory-field]").forEach(field => field.addEventListener("input", () => {
     const [index,key] = field.dataset.memoryField.split(":");
     state.memoryMap.days[index][key] = key === "tags" ? field.value.split(",").map(tag => tag.trim()).filter(Boolean) : field.value;
+    if (key === "date") {
+      const year=Number(String(field.value).slice(0,4));
+      if(year&&!state.memoryMap.years.some(item=>item.year===year))state.memoryMap.years.push({year,title_en:`${year} in memories`,title_zh:`${year} 年回忆`,style:"expedition",accent:"#df6c3f",background:{mode:"solid",color:"#f5f1e8",from:"#f5f1e8",to:"#dce9e6",angle:135,image:""}});
+      if(year){activeMemoryYear=year;state.memoryMap.years.sort((a,b)=>b.year-a.year);renderMemoryYears();renderMemoryStyles();renderMemoryDays();}
+    }
     memoryPreview();
   }));
 }
 
 function populateMemory() {
-  state.memoryMap ||= {eyebrow:"MEMORY MAP",title:"A route through days worth remembering.",description:"",style:"expedition",accent:"#df6c3f",background:"#f5f1e8",days:[]};
-  state.memoryMap.days ||= [];
-  state.memoryMap.days.forEach(day => day.newImages ||= []);
+  normalizeMemory();
   fillForm($("#memory-form"), state.memoryMap);
+  renderMemoryYears();
   renderMemoryStyles();
   renderMemoryDays();
   memoryPreview();
@@ -372,15 +437,30 @@ document.addEventListener("click", async event => {
     catch (error) { showNotice(error.message, true); }
   }
   const style = event.target.closest("[data-memory-style]");
-  if (style) { state.memoryMap.style = style.dataset.memoryStyle; renderMemoryStyles(); memoryPreview(); }
+  if (style) { activeYearSettings().style = style.dataset.memoryStyle; renderMemoryStyles(); memoryPreview(); }
+  const editYear = event.target.closest("[data-memory-edit-year]");
+  if (editYear) { activeMemoryYear=Number(editYear.dataset.memoryEditYear); renderMemoryYears(); renderMemoryStyles(); renderMemoryDays(); memoryPreview(); }
+  if (event.target.closest("#memory-add-year")) {
+    let year=new Date().getFullYear(); while(state.memoryMap.years.some(item=>item.year===year)) year++;
+    state.memoryMap.years.push({year,title_en:`${year} in memories`,title_zh:`${year} 年回忆`,style:"expedition",accent:"#df6c3f",background:{mode:"solid",color:"#f5f1e8",from:"#f5f1e8",to:"#dce9e6",angle:135,image:""}});
+    activeMemoryYear=year; state.memoryMap.years.sort((a,b)=>b.year-a.year); renderMemoryYears();renderMemoryStyles();renderMemoryDays();memoryPreview();
+  }
+  if (event.target.closest("#memory-delete-year")) {
+    const count=state.memoryMap.days.filter(day=>String(day.date||"").startsWith(`${activeMemoryYear}-`)).length;
+    if (state.memoryMap.years.length === 1) { showNotice("至少保留一个年份。",true); }
+    else if (confirm(`删除 ${activeMemoryYear} 年及其中 ${count} 个回忆节点吗？`)) { state.memoryMap.years=state.memoryMap.years.filter(item=>item.year!==activeMemoryYear);state.memoryMap.days=state.memoryMap.days.filter(day=>!String(day.date||"").startsWith(`${activeMemoryYear}-`));activeMemoryYear=state.memoryMap.years[0].year;renderMemoryYears();renderMemoryStyles();renderMemoryDays();memoryPreview(); }
+  }
+  if (event.target.closest("#memory-year-bg-clear")) { activeYearSettings().background.image="";delete activeYearSettings().background.newImage;renderMemoryYears();memoryPreview(); }
   if (event.target.closest("#memory-add-day")) {
-    state.memoryMap.days.push({id:`memory-${Date.now().toString(36)}`,date:today(),title:"New Memory",location:"",summary:"",body:"",images:[],newImages:[],tags:[]});
+    const monthDay=today().slice(4);
+    state.memoryMap.days.push({id:`memory-${Date.now().toString(36)}`,date:`${activeMemoryYear}${monthDay}`,title_en:"New Memory",title_zh:"新的回忆",location_en:"",location_zh:"",summary_en:"",summary_zh:"",body_en:"",body_zh:"",images:[],newImages:[],tags:[]});
     renderMemoryDays(); memoryPreview();
   }
   const move = event.target.closest("[data-memory-move]");
   if (move) {
-    const [fromText,direction] = move.dataset.memoryMove.split(":"), from=Number(fromText), to=direction === "up" ? from-1 : from+1, days=state.memoryMap.days;
-    if (to >= 0 && to < days.length) { [days[from],days[to]]=[days[to],days[from]]; renderMemoryDays(); memoryPreview(); }
+    const [fromText,direction] = move.dataset.memoryMove.split(":"), from=Number(fromText), days=state.memoryMap.days;
+    const indices=days.map((day,index)=>({day,index})).filter(({day})=>String(day.date||"").startsWith(`${activeMemoryYear}-`)).map(item=>item.index), position=indices.indexOf(from), toPosition=direction === "up" ? position-1 : position+1, to=indices[toPosition];
+    if (to !== undefined) { [days[from],days[to]]=[days[to],days[from]]; renderMemoryDays(); memoryPreview(); }
   }
   const deleteMemory = event.target.closest("[data-memory-delete]");
   if (deleteMemory && confirm("删除这个日期节点吗？已保存的照片文件会暂时保留。")) { state.memoryMap.days.splice(Number(deleteMemory.dataset.memoryDelete),1); renderMemoryDays(); memoryPreview(); }
@@ -393,6 +473,9 @@ document.addEventListener("click", async event => {
 });
 
 document.addEventListener("change", async event => {
+  if (event.target.matches("#memory-year-bg-upload")) {
+    try { const images=await readFiles(event.target.files); if(images[0]){activeYearSettings().background.newImage=images[0];activeYearSettings().background.mode="image";renderMemoryYears();memoryPreview();} } catch(error){showNotice(error.message,true);} return;
+  }
   const upload = event.target.closest("[data-memory-upload]");
   if (!upload) return;
   try {

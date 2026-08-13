@@ -167,13 +167,21 @@
           <form id="memory-form" class="form-stack">
             <article class="form-card">
               <div class="card-heading"><span>MEMORY MAP</span><h2>回忆地图设置</h2></div>
-              <div class="field-pair"><label>顶部标签<input name="eyebrow"></label><label>地图标题<input name="title" required></label></div>
-              <label>地图介绍<textarea name="description" rows="4"></textarea></label>
-              <div class="field-pair"><label>强调色<input name="accent" type="color"></label><label>背景色<input name="background" type="color"></label></div>
+              <div class="field-pair"><label>顶部标签（英文）<input name="eyebrow_en"></label><label>顶部标签（中文）<input name="eyebrow_zh"></label><label>地图标题（英文）<input name="title_en" required></label><label>地图标题（中文）<input name="title_zh"></label></div>
+              <label>地图介绍（英文）<textarea name="description_en" rows="3"></textarea></label>
+              <label>地图介绍（中文）<textarea name="description_zh" rows="3"></textarea></label>
+            </article>
+            <article class="form-card memory-year-settings">
+              <div class="card-heading"><span>YEAR PAGES</span><h2>年度页面</h2></div>
+              <div class="memory-year-editor-tabs" id="memory-year-editor-tabs"></div>
+              <div class="memory-year-actions"><button type="button" id="memory-add-year">+ 新年份</button><button type="button" class="danger" id="memory-delete-year">删除当前年份</button></div>
+              <div class="field-pair"><label>年份<input id="memory-year-value" type="number" min="1900" max="2200"></label><label>年度标题（英文）<input id="memory-year-title-en"></label><label>年度标题（中文）<input id="memory-year-title-zh"></label><label>强调色<input id="memory-year-accent" type="color"></label></div>
+              <div class="field-pair"><label>背景模式<select id="memory-year-bg-mode"><option value="solid">纯色</option><option value="gradient">渐变</option><option value="image">图片</option></select></label><label>背景色<input id="memory-year-bg-color" type="color"></label><label>渐变起点<input id="memory-year-bg-from" type="color"></label><label>渐变终点<input id="memory-year-bg-to" type="color"></label><label>渐变角度<input id="memory-year-bg-angle" type="range" min="0" max="360"></label></div>
+              <div class="memory-year-background"><span id="memory-year-bg-name">未选择年度背景图</span><label>选择背景图<input id="memory-year-bg-upload" type="file" accept="image/jpeg,image/png,image/webp" hidden></label><button type="button" id="memory-year-bg-clear">清除图片</button></div>
             </article>
             <article class="form-card">
-              <div class="card-heading"><span>12 STRUCTURAL STYLES</span><h2>选择整体地图样式</h2></div>
-              <p class="memory-hint">每种方案会改变路线、节点、卡片、图片和信息密度，而不只是更换颜色。</p>
+              <div class="card-heading"><span>12 STRUCTURAL STYLES</span><h2>当前年份的地图样式</h2></div>
+              <p class="memory-hint">每一年都可以使用不同布局、颜色和背景，而不只是更换颜色。</p>
               <div id="memory-style-grid" class="memory-style-grid"></div>
             </article>
             <div class="memory-section-head"><div><span>DATE STOPS</span><h2>日期节点</h2><p>可以自由新增、删除、修改日期或上下移动。每一天支持多张照片。</p></div><button type="button" class="memory-add" id="memory-add-day">+ 新日期</button></div>

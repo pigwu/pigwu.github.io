@@ -1,9 +1,32 @@
 {
   "eyebrow": "MEMORY MAP",
+  "eyebrow_en": "MEMORY MAP",
+  "eyebrow_zh": "回忆地图",
   "title": "A route through days worth remembering.",
+  "title_en": "A route through days worth remembering.",
+  "title_zh": "一条穿过珍贵日子的回忆路线。",
   "description": "Selected days from research, travel, running, and life, connected as one evolving journey.",
+  "description_en": "Selected days from research, travel, running, and life, connected as one evolving journey.",
+  "description_zh": "把研究、旅行、跑步与生活中值得记住的日子，连接成一段持续生长的旅程。",
   "style": "expedition",
   "accent": "#df6c3f",
   "background": "#f5f1e8",
+  "years": [
+    {
+      "year": 2026,
+      "title_en": "2026 in motion",
+      "title_zh": "行进中的 2026",
+      "style": "expedition",
+      "accent": "#df6c3f",
+      "background": {
+        "mode": "solid",
+        "color": "#f5f1e8",
+        "from": "#f5f1e8",
+        "to": "#dce9e6",
+        "angle": 135,
+        "image": ""
+      }
+    }
+  ],
   "days": []
 }

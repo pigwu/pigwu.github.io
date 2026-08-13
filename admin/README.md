@@ -29,13 +29,15 @@ The publish action intentionally stages only editor-managed paths. Unrelated wor
 Open **回忆地图** in the Studio to:
 
 - Add or remove any number of dates and change each date at any time
+- Organize memories as complete year pages; the current year opens by default, with older or future years available from the year switcher
+- Filter the active year by month without leaving that year's route
+- Give every year its own title, accent, structural layout, and solid, gradient, or uploaded-image background
 - Reorder stops with the up/down controls
-- Add a title, location, summary, full story, tags, and up to 12 images per stop
+- Add bilingual titles, locations, summaries, full stories, tags, and up to 12 images per stop
 - Choose among 12 structurally different layouts
-- Customize the map accent and background colors
-- See every change in the live preview before saving
+- See every change for the currently selected year in the live preview before saving
 
-在 Studio 中打开“回忆地图”，即可自由增减和修改日期、调整节点顺序、上传多图、编写完整故事，并实时预览 12 种不同的整体布局。保存只写入本地文件，确认后再使用“发布网站”推送到 `main`。
+在 Studio 中打开“回忆地图”，即可按年份组织整条回忆路线；网页默认显示今年，也可以整年切换并在当前年内按月份筛选。每一年都能独立设置中英文标题、强调色、12 种整体布局，以及纯色、渐变或图片背景。日期节点可自由增减、跨年移动、排序和上传多图，所有变化都会先显示在当前年份的实时预览中。保存只写入本地文件，确认后再使用“发布网站”推送到 `main`。
 
 ## Component Lab / 外观与组件
 

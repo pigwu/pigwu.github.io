@@ -304,8 +304,28 @@ async function handleApi(req, res, url) {
     const memory = body.memory || {};
     const allowedStyles = new Set(["expedition", "metro", "passport", "constellation", "editorial", "polaroid", "brutalist", "glass", "terminal", "orbital", "notebook", "museum"]);
     const color = (value, fallback) => /^#[0-9a-f]{6}$/i.test(String(value || "")) ? String(value) : fallback;
-    const days = (Array.isArray(memory.days) ? memory.days : []).slice(0, 100).map((day, index) => {
-      const title = cleanText(day.title, 180);
+    const years = (Array.isArray(memory.years) ? memory.years : []).slice(0, 100).map((item,index) => {
+      const year = Math.max(1900,Math.min(2200,Number(item.year) || new Date().getFullYear()));
+      const background = item.background || {};
+      let image = /^\/images\/memories\/[a-z0-9._/-]+$/i.test(String(background.image || "")) ? String(background.image) : "";
+      if (background.newImage) image = saveImages([background.newImage], "images/memories", `year-${year}-background-${Date.now().toString(36)}-${index+1}`)[0] || image;
+      return {
+        year,
+        title_en:cleanText(item.title_en,180) || `${year} in memories`,
+        title_zh:cleanText(item.title_zh,180) || `${year} 年回忆`,
+        style:allowedStyles.has(item.style) ? item.style : "expedition",
+        accent:color(item.accent,"#df6c3f"),
+        background:{
+          mode:["solid","gradient","image"].includes(background.mode) ? background.mode : "solid",
+          color:color(background.color,"#f5f1e8"),from:color(background.from,"#f5f1e8"),to:color(background.to,"#dce9e6"),
+          angle:Math.max(0,Math.min(360,Number(background.angle)||135)),image
+        }
+      };
+    });
+    const uniqueYears = [...new Map(years.map(item => [item.year,item])).values()].sort((a,b)=>b.year-a.year);
+    if (!uniqueYears.length) throw new Error("Add at least one memory year.");
+    const days = (Array.isArray(memory.days) ? memory.days : []).slice(0, 300).map((day, index) => {
+      const title = cleanText(day.title_en || day.title, 180);
       if (!title) throw new Error(`Memory ${index + 1} needs a title.`);
       const date = /^\d{4}-\d{2}-\d{2}$/.test(day.date || "") ? day.date : "";
       const id = cleanText(day.id, 180) || `memory-${Date.now().toString(36)}-${index + 1}`;
@@ -316,20 +336,29 @@ async function handleApi(req, res, url) {
         id,
         date,
         title,
-        location: cleanText(day.location, 180),
-        summary: cleanText(day.summary, 2000),
-        body: cleanText(day.body, 50000),
+        title_en:title,
+        title_zh:cleanText(day.title_zh,180) || title,
+        location:cleanText(day.location_en || day.location,180),
+        location_en:cleanText(day.location_en || day.location,180),
+        location_zh:cleanText(day.location_zh,180) || cleanText(day.location_en || day.location,180),
+        summary:cleanText(day.summary_en || day.summary,2000),
+        summary_en:cleanText(day.summary_en || day.summary,2000),
+        summary_zh:cleanText(day.summary_zh,2000) || cleanText(day.summary_en || day.summary,2000),
+        body:cleanText(day.body_en || day.body,50000),
+        body_en:cleanText(day.body_en || day.body,50000),
+        body_zh:cleanText(day.body_zh,50000) || cleanText(day.body_en || day.body,50000),
         images: [...existingImages, ...uploadedImages].slice(0, 12),
         tags: (Array.isArray(day.tags) ? day.tags : cleanText(day.tags, 500).split(",")).map(tag => cleanText(tag, 60)).filter(Boolean).slice(0, 12)
       };
     });
     const next = {
-      eyebrow: cleanText(memory.eyebrow, 100) || "MEMORY MAP",
-      title: cleanText(memory.title, 240) || "A route through days worth remembering.",
-      description: cleanText(memory.description, 2000),
-      style: allowedStyles.has(memory.style) ? memory.style : "expedition",
-      accent: color(memory.accent, "#df6c3f"),
-      background: color(memory.background, "#f5f1e8"),
+      eyebrow:cleanText(memory.eyebrow_en || memory.eyebrow,100) || "MEMORY MAP",
+      eyebrow_en:cleanText(memory.eyebrow_en || memory.eyebrow,100) || "MEMORY MAP",eyebrow_zh:cleanText(memory.eyebrow_zh,100) || "回忆地图",
+      title:cleanText(memory.title_en || memory.title,240) || "A route through days worth remembering.",
+      title_en:cleanText(memory.title_en || memory.title,240) || "A route through days worth remembering.",title_zh:cleanText(memory.title_zh,240) || cleanText(memory.title_en || memory.title,240),
+      description:cleanText(memory.description_en || memory.description,2000),description_en:cleanText(memory.description_en || memory.description,2000),description_zh:cleanText(memory.description_zh,2000) || cleanText(memory.description_en || memory.description,2000),
+      style:uniqueYears[0].style,accent:uniqueYears[0].accent,background:uniqueYears[0].background.color,
+      years:uniqueYears,
       days
     };
     writeJson("_data/memory_map.json", next);

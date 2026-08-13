@@ -23,6 +23,7 @@
     if (langText) {
       langText.textContent = lang === 'zh' ? 'CN' : 'EN';
     }
+    window.dispatchEvent(new CustomEvent('site-language-change', { detail: { lang: lang } }));
   }
 
   if (document.readyState === 'loading') {
