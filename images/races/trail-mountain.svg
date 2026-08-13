@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Trail mountain scene placeholder</title>
+  <desc id="desc">Stylized mountain race background for trail-running photo showcase.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4bc2a7"/>
+      <stop offset="100%" stop-color="#daf8ef"/>
+    </linearGradient>
+    <linearGradient id="ridge" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1f6f5f"/>
+      <stop offset="100%" stop-color="#2f937e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#sky)"/>
+  <circle cx="980" cy="150" r="80" fill="#fff3b2"/>
+  <path d="M0 520 L230 250 L390 520 Z" fill="#2f8f7a"/>
+  <path d="M280 520 L550 180 L820 520 Z" fill="url(#ridge)"/>
+  <path d="M650 520 L890 230 L1160 520 Z" fill="#2a806c"/>
+  <path d="M0 560 C180 530 430 610 620 575 C820 540 1000 620 1200 590 L1200 800 L0 800 Z" fill="#246b5c"/>
+  <path d="M0 620 C170 585 460 670 700 630 C930 595 1080 655 1200 640 L1200 800 L0 800 Z" fill="#1f5b4e"/>
+  <path d="M330 560 C420 540 520 610 610 585 C730 550 835 635 940 610" fill="none" stroke="#f6d97a" stroke-width="10" stroke-linecap="round"/>
+  <g fill="#ffffff" opacity="0.9">
+    <circle cx="596" cy="498" r="10"/>
+    <path d="M596 510 L596 544 M596 522 L575 536 M596 522 L615 535 M596 544 L582 569 M596 544 L613 565" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+  </g>
+  <text x="64" y="745" font-family="Arial, sans-serif" font-size="58" fill="#ffffff" font-weight="700">Trail Running Highlight</text>
+</svg>

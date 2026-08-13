@@ -13,8 +13,11 @@
             {% else %}
               {% assign domain = base_path %}
             {% endif %}
-            <li class="masthead__menu-item"><a href="{{ domain }}{{ link.url }}">{{ link.title }}</a></li>
+            <li class="masthead__menu-item"><a href="{{ domain }}{{ link.url }}" data-en="{{ link.title }}" data-zh="{{ link.title_zh }}">{{ link.title }}</a></li>
           {% endfor %}
+          <li id="lang-toggle" class="masthead__menu-item persist tail">
+            <a role="button" aria-label="Toggle language"><span id="lang-text">EN</span></a>
+          </li>
           <li id="theme-toggle" class="masthead__menu-item persist tail">
             <a role="button" aria-labelledby="theme-icon"><i id="theme-icon" class="fa-solid fa-sun" aria-hidden="true" title="toggle theme"></i></a>
           </li>

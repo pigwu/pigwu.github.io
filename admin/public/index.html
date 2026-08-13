@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yunzhi Site Studio</title>
+  <link rel="stylesheet" href="/app.css">
+  <link rel="stylesheet" href="/memory-editor.css">
+  <link rel="stylesheet" href="/design-editor.css">
+</head>
+<body>
+  <div class="studio-shell">
+    <aside class="studio-nav">
+      <div class="brand">
+        <span class="brand-mark">YW</span>
+        <div><strong>Site Studio</strong><small>Local content desk</small></div>
+      </div>
+      <nav aria-label="内容管理">
+        <button class="nav-item is-active" data-view="dashboard"><span>01</span>概览</button>
+        <button class="nav-item" data-view="profile"><span>02</span>主页与介绍</button>
+        <button class="nav-item" data-view="blog"><span>03</span>发布 Blog</button>
+        <button class="nav-item" data-view="running"><span>04</span>跑步记录</button>
+        <button class="nav-item" data-view="memory"><span>05</span>回忆地图</button>
+        <button class="nav-item" data-view="design"><span>06</span>外观与组件</button>
+        <button class="nav-item" data-view="engagement"><span>07</span>访客与留言</button>
+        <button class="nav-item" data-view="publish"><span>08</span>发布网站</button>
+      </nav>
+      <div class="local-badge"><i></i>仅在本机运行</div>
+    </aside>
+
+    <main class="studio-main">
+      <header class="topbar">
+        <div>
+          <p id="eyebrow">CONTENT OVERVIEW</p>
+          <h1 id="view-title">网站内容工作台</h1>
+        </div>
+        <a href="https://pigwu.github.io" target="_blank" rel="noopener">打开线上网站 ↗</a>
+      </header>
+
+      <div id="notice" class="notice" role="status" hidden></div>
+
+      <section class="view is-active" id="view-dashboard">
+        <div class="hero-card">
+          <div>
+            <p class="overline">YUNZHI WU / PERSONAL SITE</p>
+            <h2>把内容放进来，<br>其余交给工作台。</h2>
+            <p>修改介绍、上传照片、写 Blog、记录比赛。所有内容先保存在本地，确认后再一键发布到 GitHub。</p>
+          </div>
+          <div class="hero-orbit" aria-hidden="true"><span></span><strong>LOCAL<br>FIRST</strong></div>
+        </div>
+        <div class="quick-grid">
+          <button class="quick-card" data-jump="profile"><span>PROFILE</span><strong>修改主页介绍</strong><small>头像、中英文介绍、PB</small></button>
+          <button class="quick-card" data-jump="blog"><span>JOURNAL</span><strong>写一篇 Blog</strong><small>正文、标签、多图上传</small></button>
+          <button class="quick-card" data-jump="running"><span>RUN LOG</span><strong>新增跑步记录</strong><small>赛事数据与多图</small></button>
+          <button class="quick-card" data-jump="memory"><span>MEMORY MAP</span><strong>编辑回忆路线</strong><small>日期、故事、照片与 12 种布局</small></button>
+          <button class="quick-card" data-jump="design"><span>COMPONENTS</span><strong>自定义框与线条</strong><small>头像、文本框、按钮、阴影</small></button>
+          <button class="quick-card" data-jump="engagement"><span>GUESTBOOK</span><strong>管理留言与访问数</strong><small>标题、排序、开关与 GitHub 后台</small></button>
+          <button class="quick-card accent" data-jump="publish"><span>SHIP</span><strong>查看并发布</strong><small>Commit + Push 到 main</small></button>
+        </div>
+        <div class="status-card">
+          <div><span>当前分支</span><strong id="dash-branch">...</strong></div>
+          <div><span>本地改动</span><strong id="dash-changes">...</strong></div>
+          <div><span>最近提交</span><strong id="dash-commit">...</strong></div>
+        </div>
+      </section>
+
+      <section class="view" id="view-profile">
+        <form id="profile-form" class="editor-layout">
+          <div class="form-stack">
+            <article class="form-card">
+              <div class="card-heading"><span>IDENTITY</span><h2>头像与身份</h2></div>
+              <label>姓名<input name="name" required maxlength="100"></label>
+              <label>头像</label>
+              <div class="avatar-row">
+                <div class="avatar-preview"><img id="avatar-preview" alt="头像预览"></div>
+                <label class="file-button">选择新头像<input id="avatar-input" type="file" accept="image/jpeg,image/png,image/webp" hidden></label>
+              </div>
+              <label>侧栏简介（英文）<textarea name="bio_en" rows="3"></textarea></label>
+              <label>侧栏简介（中文）<textarea name="bio_zh" rows="3"></textarea></label>
+            </article>
+
+            <article class="form-card">
+              <div class="card-heading"><span>ABOUT</span><h2>主页介绍</h2></div>
+              <div class="field-pair">
+                <label>顶部短句（英文）<input name="kicker_en"></label>
+                <label>顶部短句（中文）<input name="kicker_zh"></label>
+              </div>
+              <label>完整介绍（英文）<textarea name="intro_en" rows="7" required></textarea></label>
+              <label>完整介绍（中文）<textarea name="intro_zh" rows="7"></textarea></label>
+            </article>
+
+            <article class="form-card">
+              <div class="card-heading"><span>RUNNING</span><h2>个人成绩与摘要</h2></div>
+              <div class="field-grid">
+                <label>5K PB<input name="pb_5k" placeholder="19:56"></label>
+                <label>半马 PB<input name="pb_half" placeholder="1:33:34"></label>
+                <label>越野爬升记录<input name="trail_elevation" placeholder="1116"></label>
+                <label>最近比赛<input name="latest_race"></label>
+                <label>最近距离<input name="latest_distance" placeholder="20.94 km"></label>
+                <label>最近爬升<input name="latest_elevation" placeholder="1116 m"></label>
+                <label>最近完赛<input name="latest_finish" placeholder="3:35:23"></label>
+              </div>
+            </article>
+            <button class="primary-action" type="submit">保存主页内容到本地</button>
+          </div>
+          <aside class="help-card"><span>HOW IT WORKS</span><h3>先保存，再发布</h3><p>点击保存只会修改你电脑里的数据，不会立刻影响线上网站。确认所有内容以后，到“发布网站”完成 Commit 和 Push。</p></aside>
+        </form>
+      </section>
+
+      <section class="view" id="view-blog">
+        <form id="blog-form" class="editor-layout">
+          <div class="form-stack">
+            <article class="form-card">
+              <div class="card-heading"><span>NEW POST</span><h2>新建 Blog</h2></div>
+              <label>文章标题<input name="title" required placeholder="今天想记录什么？"></label>
+              <div class="field-pair">
+                <label>发布日期<input name="date" type="date" required></label>
+                <label>英文短链接（可选）<input name="slug" placeholder="my-first-post"></label>
+              </div>
+              <label>摘要<textarea name="excerpt" rows="3" placeholder="显示在 Blog 列表中的简短介绍"></textarea></label>
+              <label>标签<input name="tags" placeholder="Running, Research, Life（用逗号分隔）"></label>
+              <label>正文（支持 Markdown）<textarea class="body-editor" name="body" rows="16" required placeholder="可以直接写普通文字。段落之间空一行，也支持 Markdown。"></textarea></label>
+              <label>文章图片</label>
+              <div class="dropzone" data-upload="blog">
+                <input type="file" multiple accept="image/jpeg,image/png,image/webp">
+                <strong>拖入照片，或点击选择</strong><small>最多 12 张，会自动优化尺寸</small>
+              </div>
+              <div class="upload-preview" data-preview="blog"></div>
+            </article>
+            <button class="primary-action" type="submit">创建 Blog 到本地</button>
+          </div>
+          <aside class="help-card"><span>RECENT POSTS</span><h3>已存在文章</h3><div id="post-list" class="mini-list"><p>还没有 Blog。</p></div></aside>
+        </form>
+      </section>
+
+      <section class="view" id="view-running">
+        <form id="running-form" class="editor-layout">
+          <div class="form-stack">
+            <article class="form-card">
+              <div class="card-heading"><span>NEW RUN LOG</span><h2>新增跑步或比赛记录</h2></div>
+              <div class="field-pair">
+                <label>英文名称<input name="name" required placeholder="Dongmingshan Trail Race"></label>
+                <label>中文名称<input name="name_zh" placeholder="东明山越野赛"></label>
+              </div>
+              <div class="field-grid">
+                <label>类型<select name="type"><option>Trail Race</option><option>Road Race</option><option>Marathon</option><option>Half Marathon</option><option>Relay</option><option>Training</option></select></label>
+                <label>日期<input name="date" type="date" required></label>
+                <label>成绩<input name="time" placeholder="3:35:23"></label>
+                <label>距离<input name="distance" placeholder="20.94 km"></label>
+                <label>爬升<input name="elevation" placeholder="1116 m"></label>
+              </div>
+              <label>记录（英文）<textarea name="note_en" rows="4" placeholder="Race story, terrain, weather, feeling..."></textarea></label>
+              <label>记录（中文）<textarea name="note_zh" rows="4" placeholder="比赛故事、路况、天气、感受……"></textarea></label>
+              <label>跑步照片</label>
+              <div class="dropzone" data-upload="running">
+                <input type="file" multiple accept="image/jpeg,image/png,image/webp">
+                <strong>拖入跑步照片，或点击选择</strong><small>至少 1 张，最多 12 张，会自动优化</small>
+              </div>
+              <div class="upload-preview" data-preview="running"></div>
+            </article>
+            <button class="primary-action" type="submit">保存跑步记录到本地</button>
+          </div>
+          <aside class="help-card"><span>RUN LOGS</span><h3>后台新增记录</h3><div id="running-list" class="mini-list"><p>还没有通过后台新增记录。</p></div></aside>
+        </form>
+      </section>
+
+      <section class="view" id="view-memory">
+        <div class="memory-workspace">
+          <form id="memory-form" class="form-stack">
+            <article class="form-card">
+              <div class="card-heading"><span>MEMORY MAP</span><h2>回忆地图设置</h2></div>
+              <div class="field-pair"><label>顶部标签（英文）<input name="eyebrow_en"></label><label>顶部标签（中文）<input name="eyebrow_zh"></label><label>地图标题（英文）<input name="title_en" required></label><label>地图标题（中文）<input name="title_zh"></label></div>
+              <label>地图介绍（英文）<textarea name="description_en" rows="3"></textarea></label>
+              <label>地图介绍（中文）<textarea name="description_zh" rows="3"></textarea></label>
+            </article>
+            <article class="form-card memory-year-settings">
+              <div class="card-heading"><span>YEAR PAGES</span><h2>年度页面</h2></div>
+              <div class="memory-year-editor-tabs" id="memory-year-editor-tabs"></div>
+              <div class="memory-year-actions"><button type="button" id="memory-add-year">+ 新年份</button><button type="button" class="danger" id="memory-delete-year">删除当前年份</button></div>
+              <div class="field-pair"><label>年份<input id="memory-year-value" type="number" min="1900" max="2200"></label><label>年度标题（英文）<input id="memory-year-title-en"></label><label>年度标题（中文）<input id="memory-year-title-zh"></label><label>强调色<input id="memory-year-accent" type="color"></label></div>
+              <div class="field-pair"><label>背景模式<select id="memory-year-bg-mode"><option value="solid">纯色</option><option value="gradient">渐变</option><option value="image">图片</option></select></label><label>背景色<input id="memory-year-bg-color" type="color"></label><label>渐变起点<input id="memory-year-bg-from" type="color"></label><label>渐变终点<input id="memory-year-bg-to" type="color"></label><label>渐变角度<input id="memory-year-bg-angle" type="range" min="0" max="360"></label></div>
+              <div class="memory-year-background"><span id="memory-year-bg-name">未选择年度背景图</span><label>选择背景图<input id="memory-year-bg-upload" type="file" accept="image/jpeg,image/png,image/webp" hidden></label><button type="button" id="memory-year-bg-clear">清除图片</button></div>
+            </article>
+            <article class="form-card">
+              <div class="card-heading"><span>12 STRUCTURAL STYLES</span><h2>当前年份的地图样式</h2></div>
+              <p class="memory-hint">每一年都可以使用不同布局、颜色和背景，而不只是更换颜色。</p>
+              <div id="memory-style-grid" class="memory-style-grid"></div>
+            </article>
+            <div class="memory-section-head"><div><span>DATE STOPS</span><h2>日期节点</h2><p>可以自由新增、删除、修改日期或上下移动。每一天支持多张照片。</p></div><button type="button" class="memory-add" id="memory-add-day">+ 新日期</button></div>
+            <div id="memory-day-list" class="memory-day-list"></div>
+            <button class="primary-action" type="submit">保存回忆地图到本地</button>
+          </form>
+          <aside class="memory-preview-panel"><div><span>LIVE PREVIEW</span><strong id="memory-preview-style">Expedition Route</strong></div><iframe id="memory-preview" src="/memory-preview.html" title="Memory map live preview"></iframe></aside>
+        </div>
+      </section>
+
+      <section class="view" id="view-design">
+        <form id="design-form" class="design-workspace">
+          <div class="form-stack">
+            <article class="form-card">
+              <div class="card-heading"><span>AVATAR FRAME</span><h2>头像框</h2></div>
+              <div class="field-pair">
+                <label>头像轮廓<select name="avatarShape"><option value="circle">圆形</option><option value="rounded">圆角方形</option><option value="arch">拱门形</option><option value="square">直角方形</option><option value="diamond">菱形</option><option value="blob">有机圆形</option></select></label>
+                <label>边框线型<select name="avatarBorderStyle"><option value="none">无边框</option><option value="solid">实线</option><option value="double">双线</option><option value="dashed">虚线</option><option value="dotted">点线</option></select></label>
+                <label>边框粗细 <output data-design-output="avatarBorderWidth"></output><input name="avatarBorderWidth" type="range" min="0" max="12"></label>
+                <label>边框颜色<input name="avatarBorderColor" type="color"></label>
+              </div>
+            </article>
+            <article class="form-card">
+              <div class="card-heading"><span>TEXT & CONTENT BOXES</span><h2>文本框与内容卡片</h2></div>
+              <div class="field-pair">
+                <label>框体形状<select name="cardShape"><option value="sharp">直角</option><option value="subtle">微圆角</option><option value="rounded">大圆角</option><option value="capsule">胶囊感</option><option value="cut">切角</option></select></label>
+                <label>边线样式<select name="cardBorderStyle"><option value="none">无边线</option><option value="solid">实线</option><option value="double">双线</option><option value="dashed">虚线</option><option value="dotted">点线</option></select></label>
+                <label>边线粗细 <output data-design-output="cardBorderWidth"></output><input name="cardBorderWidth" type="range" min="0" max="8"></label>
+                <label>边线颜色<input name="cardBorderColor" type="color"></label>
+                <label>阴影风格<select name="cardShadow"><option value="none">无阴影</option><option value="soft">柔和</option><option value="lifted">悬浮</option><option value="hard">硬边</option><option value="glow">光晕</option></select></label>
+                <label>按钮形状<select name="buttonShape"><option value="square">直角</option><option value="rounded">圆角</option><option value="pill">胶囊</option></select></label>
+              </div>
+            </article>
+            <article class="form-card">
+              <div class="card-heading"><span>LINES</span><h2>分隔线</h2></div>
+              <div class="field-pair">
+                <label>线条样式<select name="lineStyle"><option value="none">隐藏</option><option value="solid">实线</option><option value="double">双线</option><option value="dashed">虚线</option><option value="dotted">点线</option></select></label>
+                <label>线条粗细 <output data-design-output="lineWidth"></output><input name="lineWidth" type="range" min="0" max="8"></label>
+                <label>线条颜色<input name="lineColor" type="color"></label>
+              </div>
+            </article>
+            <div class="design-actions"><button class="primary-action" type="submit">保存组件外观到本地</button><button type="button" class="design-reset" id="design-reset">恢复默认</button></div>
+          </div>
+          <aside class="design-preview" id="design-preview">
+            <div class="design-preview__top"><span>LIVE COMPONENT LAB</span><strong>实时预览</strong></div>
+            <div class="design-preview__canvas">
+              <div class="design-avatar"><img id="design-avatar" alt="头像样式预览"></div>
+              <div class="design-line"></div>
+              <article class="design-card">
+                <span>WORLD MODELS / VISION</span>
+                <h3>Design the details.</h3>
+                <p>这里预览头像框、文本框形状、边线、阴影和按钮的组合效果。</p>
+                <button type="button">Sample button</button>
+              </article>
+              <div class="design-line"></div>
+              <small>Changes appear instantly. Save when the combination feels right.</small>
+            </div>
+          </aside>
+        </form>
+      </section>
+
+      <section class="view" id="view-engagement">
+        <form id="engagement-form" class="editor-layout">
+          <div class="form-stack">
+            <article class="form-card">
+              <div class="card-heading"><span>GUESTBOOK</span><h2>留言板设置</h2></div>
+              <label class="engagement-toggle"><input name="guestbook_enabled" type="checkbox">在主页显示留言板</label>
+              <div class="field-grid">
+                <label>GitHub 用户名<input name="owner" required placeholder="pigwu"></label>
+                <label>仓库名<input name="repo" required placeholder="pigwu.github.io"></label>
+                <label>留言 Issue 编号<input name="issue" type="number" min="1" required></label>
+                <label>显示留言数量<input name="max_comments" type="number" min="1" max="20"></label>
+                <label>排列方式<select name="sort"><option value="newest">最新优先</option><option value="oldest">最早优先</option></select></label>
+              </div>
+              <div class="field-pair">
+                <label>标题（英文）<input name="title_en"></label>
+                <label>标题（中文）<input name="title_zh"></label>
+              </div>
+              <label>介绍（英文）<textarea name="intro_en" rows="3"></textarea></label>
+              <label>介绍（中文）<textarea name="intro_zh" rows="3"></textarea></label>
+              <div class="field-pair">
+                <label>按钮（英文）<input name="button_en"></label>
+                <label>按钮（中文）<input name="button_zh"></label>
+              </div>
+              <label>管理提示（英文）<input name="moderation_en"></label>
+              <label>管理提示（中文）<input name="moderation_zh"></label>
+              <a id="manage-guestbook" class="owner-link" target="_blank" rel="noopener">前往 GitHub 管理留言 ↗</a>
+            </article>
+            <article class="form-card compact-counter-card">
+              <div class="card-heading"><span>VISITOR COUNT</span><h2>页脚访问数</h2></div>
+              <label class="engagement-toggle"><input name="visitor_enabled" type="checkbox">在网页最底部显示小型访问计数</label>
+              <label>计数标识<input name="counter_key" placeholder="your-domain-or-project"></label>
+              <p class="field-note">使用 hits.sh 的无 Cookie 小徽标；不要填写邮箱、密码或任何秘密信息。</p>
+            </article>
+            <button class="primary-action" type="submit">保存访客与留言设置</button>
+          </div>
+          <aside class="help-card"><span>OWNER CONTROL</span><h3>管理权在你的 GitHub</h3><p>访客需要 GitHub 账号才能留言。你可以在专用 Issue 中删除不合适的评论、锁定讨论，或在这里关闭整个留言区。网页只读取公开评论，不保存登录信息。</p></aside>
+        </form>
+      </section>
+
+      <section class="view" id="view-publish">
+        <div class="publish-grid">
+          <article class="publish-card">
+            <span>GIT STATUS</span><h2>准备发布</h2>
+            <p>这里会显示工作区中的所有改动，但发布按钮只会提交由内容后台管理的文件，不会碰其他正在开发的代码。</p>
+            <div id="git-files" class="git-files"><p>正在读取...</p></div>
+            <label>Commit 信息<input id="commit-message" value="Update website content"></label>
+            <button id="publish-button" class="publish-action">Commit 并 Push 到 main</button>
+            <p class="fine-print">推送后 GitHub Actions 会自动部署，通常需要 1–3 分钟。</p>
+          </article>
+          <article class="publish-side">
+            <div><span>BRANCH</span><strong id="publish-branch">...</strong></div>
+            <div><span>LAST COMMIT</span><strong id="publish-commit">...</strong></div>
+            <a href="https://github.com/pigwu/pigwu.github.io/actions" target="_blank" rel="noopener">查看部署状态 ↗</a>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>

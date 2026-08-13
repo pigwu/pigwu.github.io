@@ -1,0 +1,81 @@
+body {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(67, 217, 255, 0.08), transparent 26%),
+    radial-gradient(circle at 88% 18%, rgba(167, 255, 90, 0.055), transparent 28%),
+    linear-gradient(180deg, var(--global-bg-start, #f7fbfc), var(--global-bg-end, #eef5f7));
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(30, 126, 151, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30, 126, 151, 0.03) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.85), transparent 78%);
+}
+
+.masthead {
+  border-bottom: 1px solid rgba(95, 145, 160, 0.18);
+  background: rgba(250, 253, 254, 0.78);
+  backdrop-filter: blur(16px);
+}
+
+.greedy-nav {
+  background: transparent;
+}
+
+.greedy-nav a {
+  transition: color 0.18s ease, opacity 0.18s ease, transform 0.18s ease;
+}
+
+.greedy-nav a:hover {
+  transform: translateY(-1px);
+}
+
+#lang-toggle a,
+#theme-toggle a {
+  border: 1px solid rgba(45, 128, 151, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 0.35rem 0.62rem;
+}
+
+.archive,
+.page,
+.sidebar {
+  position: relative;
+}
+
+html[data-theme="dark"] {
+  --global-bg-start: #071017;
+  --global-bg-end: #0b151d;
+}
+
+html[data-theme="dark"] body {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(67, 217, 255, 0.1), transparent 26%),
+    radial-gradient(circle at 88% 18%, rgba(167, 255, 90, 0.06), transparent 28%),
+    linear-gradient(180deg, var(--global-bg-start), var(--global-bg-end));
+}
+
+html[data-theme="dark"] body::before {
+  background:
+    linear-gradient(rgba(126, 238, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(126, 238, 255, 0.035) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+html[data-theme="dark"] .masthead {
+  border-bottom-color: rgba(126, 238, 255, 0.16);
+  background: rgba(7, 16, 23, 0.78);
+}
+
+html[data-theme="dark"] #lang-toggle a,
+html[data-theme="dark"] #theme-toggle a {
+  border-color: rgba(126, 238, 255, 0.18);
+  background: rgba(12, 25, 35, 0.74);
+}

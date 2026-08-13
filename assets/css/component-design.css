@@ -1,0 +1,41 @@
+/* Component appearance values are controlled by the local Site Studio. */
+html .author__avatar img{border-width:var(--custom-avatar-border-width,1px);border-color:var(--custom-avatar-border-color,#43d9ff)}
+html[data-avatar-border=none] .author__avatar img{border-style:none}
+html[data-avatar-border=solid] .author__avatar img{border-style:solid}
+html[data-avatar-border=double] .author__avatar img{border-style:double}
+html[data-avatar-border=dashed] .author__avatar img{border-style:dashed}
+html[data-avatar-border=dotted] .author__avatar img{border-style:dotted}
+html[data-avatar-shape=circle] .author__avatar img{aspect-ratio:1;object-fit:cover;border-radius:50%;clip-path:none}
+html[data-avatar-shape=rounded] .author__avatar img{aspect-ratio:1;object-fit:cover;border-radius:24px;clip-path:none}
+html[data-avatar-shape=arch] .author__avatar img{aspect-ratio:4/5;object-fit:cover;border-radius:50% 50% 8px 8px;clip-path:none}
+html[data-avatar-shape=square] .author__avatar img{aspect-ratio:1;object-fit:cover;border-radius:0;clip-path:none}
+html[data-avatar-shape=diamond] .author__avatar img{aspect-ratio:1;object-fit:cover;border-radius:0;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+html[data-avatar-shape=blob] .author__avatar img{aspect-ratio:1;object-fit:cover;border-radius:63% 37% 58% 42%/44% 61% 39% 56%;clip-path:none}
+
+html :is(.about-hero,.about-panel,.focus-grid article,.project-card,.running-intro,.race-section,.pb-card,.race-card,.memory-card,.memory-empty,.guestbook-message){
+  border-width:var(--custom-card-border-width,1px)!important;
+  border-color:var(--custom-card-border-color,#43d9ff)!important
+}
+html[data-card-border=none] :is(.about-hero,.about-panel,.focus-grid article,.project-card,.running-intro,.race-section,.pb-card,.race-card,.memory-card,.memory-empty,.guestbook-message){border-style:none!important}
+html[data-card-border=solid] :is(.about-hero,.about-panel,.focus-grid article,.project-card,.running-intro,.race-section,.pb-card,.race-card,.memory-card,.memory-empty,.guestbook-message){border-style:solid!important}
+html[data-card-border=double] :is(.about-hero,.about-panel,.focus-grid article,.project-card,.running-intro,.race-section,.pb-card,.race-card,.memory-card,.memory-empty,.guestbook-message){border-style:double!important}
+html[data-card-border=dashed] :is(.about-hero,.about-panel,.focus-grid article,.project-card,.running-intro,.race-section,.pb-card,.race-card,.memory-card,.memory-empty,.guestbook-message){border-style:dashed!important}
+html[data-card-border=dotted] :is(.about-hero,.about-panel,.focus-grid article,.project-card,.running-intro,.race-section,.pb-card,.race-card,.memory-card,.memory-empty,.guestbook-message){border-style:dotted!important}
+html[data-card-shape=sharp] :is(.about-hero,.about-panel,.focus-grid article,.project-card,.running-intro,.race-section,.pb-card,.race-card,.memory-card,.memory-empty,.guestbook-message){border-radius:0!important;clip-path:none}
+html[data-card-shape=subtle] :is(.about-hero,.about-panel,.focus-grid article,.project-card,.running-intro,.race-section,.pb-card,.race-card,.memory-card,.memory-empty,.guestbook-message){border-radius:8px!important;clip-path:none}
+html[data-card-shape=rounded] :is(.about-hero,.about-panel,.focus-grid article,.project-card,.running-intro,.race-section,.pb-card,.race-card,.memory-card,.memory-empty,.guestbook-message){border-radius:22px!important;clip-path:none}
+html[data-card-shape=capsule] :is(.about-hero,.about-panel,.focus-grid article,.project-card,.running-intro,.race-section,.pb-card,.race-card,.memory-card,.memory-empty,.guestbook-message){border-radius:44px!important;clip-path:none}
+html[data-card-shape=cut] :is(.about-hero,.about-panel,.focus-grid article,.project-card,.running-intro,.race-section,.pb-card,.race-card,.memory-card,.memory-empty,.guestbook-message){border-radius:0!important;clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px)}
+html[data-card-shadow=none] :is(.about-hero,.about-panel,.focus-grid article,.project-card,.pb-card,.race-card,.memory-card,.guestbook-message){box-shadow:none!important}
+html[data-card-shadow=soft] :is(.about-hero,.about-panel,.focus-grid article,.project-card,.pb-card,.race-card,.memory-card,.guestbook-message){box-shadow:0 18px 48px -32px rgba(4,20,30,.55)!important}
+html[data-card-shadow=lifted] :is(.about-hero,.about-panel,.focus-grid article,.project-card,.pb-card,.race-card,.memory-card,.guestbook-message){box-shadow:0 30px 70px -30px rgba(4,20,30,.78)!important}
+html[data-card-shadow=hard] :is(.about-hero,.about-panel,.focus-grid article,.project-card,.pb-card,.race-card,.memory-card,.guestbook-message){box-shadow:9px 9px 0 var(--custom-card-border-color,#43d9ff)!important}
+html[data-card-shadow=glow] :is(.about-hero,.about-panel,.focus-grid article,.project-card,.pb-card,.race-card,.memory-card,.guestbook-message){box-shadow:0 0 0 1px var(--custom-card-border-color,#43d9ff),0 0 32px color-mix(in srgb,var(--custom-card-border-color,#43d9ff) 42%,transparent)!important}
+
+html[data-button-shape=square] :is(.focus-pills span,.project-link,.tech-button,.memory-detail__tags i,.guestbook-write){border-radius:0!important}
+html[data-button-shape=rounded] :is(.focus-pills span,.project-link,.tech-button,.memory-detail__tags i,.guestbook-write){border-radius:9px!important}
+html[data-button-shape=pill] :is(.focus-pills span,.project-link,.tech-button,.memory-detail__tags i,.guestbook-write){border-radius:999px!important}
+html[data-line-style=solid]{--custom-line-style:solid}html[data-line-style=dashed]{--custom-line-style:dashed}html[data-line-style=dotted]{--custom-line-style:dotted}html[data-line-style=double]{--custom-line-style:double}html[data-line-style=none]{--custom-line-style:none}
+html .masthead{border-bottom-style:var(--custom-line-style,solid);border-bottom-width:var(--custom-line-width,1px);border-bottom-color:var(--custom-line-color,var(--global-border-color))}
+html .page__footer{border-top-style:var(--custom-line-style,solid);border-top-width:var(--custom-line-width,1px);border-top-color:var(--custom-line-color,var(--global-border-color))}
+html .post-row{border-bottom-style:var(--custom-line-style,solid);border-bottom-width:var(--custom-line-width,1px);border-bottom-color:var(--custom-line-color,var(--global-border-color))}

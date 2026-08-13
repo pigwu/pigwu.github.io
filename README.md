@@ -1,4 +1,10 @@
 # Academic Pages
+
+## Local content editor
+
+On Windows, double-click `start-admin.cmd` to open the local Site Studio. It can edit the profile and About text, update running PBs, create Blog posts, add running records with photos, and publish editor-managed content to `main`.
+
+The editor runs only at `http://127.0.0.1:4173` and is not included in the public Jekyll deployment.
 **Academic Pages is a GitHub Pages template for personal and professional portfolio-oriented websites.**
 
 ![Academic Pages template example](images/themes/homepage-light.png "Academic Pages template example")

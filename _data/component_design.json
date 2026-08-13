@@ -1,0 +1,15 @@
+{
+  "avatarShape": "circle",
+  "avatarBorderStyle": "solid",
+  "avatarBorderWidth": 1,
+  "avatarBorderColor": "#43d9ff",
+  "cardShape": "rounded",
+  "cardBorderStyle": "solid",
+  "cardBorderWidth": 1,
+  "cardBorderColor": "#43d9ff",
+  "cardShadow": "soft",
+  "buttonShape": "pill",
+  "lineStyle": "solid",
+  "lineWidth": 1,
+  "lineColor": "#43d9ff"
+}
