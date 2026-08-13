@@ -13,6 +13,13 @@
   --shadow: 0 20px 55px rgba(23, 48, 71, 0.09);
 }
 
+.engagement-toggle{display:flex;grid-template-columns:auto 1fr;align-items:center;gap:.7rem;padding:.8rem 1rem;border:1px solid var(--line);border-radius:.7rem;background:#eef3ef;color:var(--ink)}
+.engagement-toggle input{width:20px;height:20px;margin:0;accent-color:var(--accent)}
+.owner-link{display:inline-flex;margin-top:1rem;padding:.7rem .9rem;border:1px solid var(--line);border-radius:.6rem;color:var(--ink);font-size:.75rem;text-decoration:none}
+.owner-link:hover{border-color:var(--accent);color:var(--accent)}
+.compact-counter-card{max-width:620px}
+.field-note{margin:.7rem 0 0;color:var(--muted);font-size:.72rem;line-height:1.55}
+
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: "DM Sans", "Microsoft YaHei", sans-serif; }
 button, input, textarea, select { font: inherit; }

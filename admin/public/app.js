@@ -6,6 +6,7 @@ const titles = {
   running: ["RUNNING ARCHIVE", "新增跑步记录"],
   memory: ["MEMORY MAP", "回忆地图"],
   design: ["COMPONENT LAB", "外观与组件"],
+  engagement: ["VISITORS & GUESTBOOK", "访客与留言"],
   publish: ["SHIP TO GITHUB", "发布网站"]
 };
 const memoryStyles = [
@@ -103,6 +104,27 @@ function populateContent() {
   renderLists();
   populateMemory();
   populateDesign();
+  populateEngagement();
+}
+
+function populateEngagement() {
+  const engagement = state.content.engagement || {};
+  const guestbook = engagement.guestbook || {};
+  const visitor = engagement.visitor || {};
+  const form = $("#engagement-form");
+  fillForm(form, { ...guestbook, ...visitor });
+  form.elements.guestbook_enabled.checked = guestbook.enabled !== false;
+  form.elements.visitor_enabled.checked = visitor.enabled !== false;
+  updateGuestbookOwnerLink();
+}
+
+function updateGuestbookOwnerLink() {
+  const form = $("#engagement-form");
+  const owner = form.elements.owner.value.trim();
+  const repo = form.elements.repo.value.trim();
+  const issue = form.elements.issue.value;
+  const link = $("#manage-guestbook");
+  link.href = owner && repo && issue ? `https://github.com/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/issues/${encodeURIComponent(issue)}` : "https://github.com/issues";
 }
 
 const designDefaults = {
@@ -338,6 +360,33 @@ $("#avatar-input").addEventListener("change", async event => {
     state.avatar = files[0] || null;
     if (state.avatar) $("#avatar-preview").src = state.avatar.dataUrl;
   } catch (error) { showNotice(error.message, true); }
+});
+
+$("#engagement-form").addEventListener("input", updateGuestbookOwnerLink);
+$("#engagement-form").addEventListener("submit", async event => {
+  event.preventDefault();
+  const button = $("button[type=submit]", event.currentTarget);
+  button.disabled = true;
+  const values = formValues(event.currentTarget);
+  try {
+    const result = await api("/api/engagement/save", { method: "POST", body: {
+      guestbook: {
+        enabled: event.currentTarget.elements.guestbook_enabled.checked,
+        owner: values.owner, repo: values.repo, issue: values.issue,
+        title_en: values.title_en, title_zh: values.title_zh,
+        intro_en: values.intro_en, intro_zh: values.intro_zh,
+        button_en: values.button_en, button_zh: values.button_zh,
+        moderation_en: values.moderation_en, moderation_zh: values.moderation_zh,
+        max_comments: values.max_comments, sort: values.sort
+      },
+      visitor: { enabled: event.currentTarget.elements.visitor_enabled.checked, counter_key: values.counter_key }
+    }});
+    state.content.engagement = result.engagement;
+    populateEngagement();
+    showNotice("访客与留言设置已保存到本地。确认后可以发布。");
+    await refreshGit();
+  } catch (error) { showNotice(error.message, true); }
+  finally { button.disabled = false; }
 });
 
 $("#blog-form").addEventListener("submit", async event => {

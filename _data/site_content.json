@@ -19,5 +19,27 @@
     "latest_distance": "20.94 km",
     "latest_elevation": "1116 m",
     "latest_finish": "3:35:23"
+  },
+  "engagement": {
+    "guestbook": {
+      "enabled": true,
+      "owner": "pigwu",
+      "repo": "pigwu.github.io",
+      "issue": 2,
+      "title_en": "Leave a trace.",
+      "title_zh": "留下你的足迹。",
+      "intro_en": "Thoughts, hellos, and notes from people passing through this corner of the web.",
+      "intro_zh": "欢迎在这里留下问候、想法，或任何你愿意分享的片段。",
+      "button_en": "Write on GitHub",
+      "button_zh": "在 GitHub 留言",
+      "moderation_en": "Messages are public and may be moderated by the site owner.",
+      "moderation_zh": "留言公开展示，站主可对内容进行管理。",
+      "max_comments": 6,
+      "sort": "newest"
+    },
+    "visitor": {
+      "enabled": true,
+      "counter_key": "pigwu.github.io"
+    }
   }
 }

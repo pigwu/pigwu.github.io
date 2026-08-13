@@ -35,6 +35,9 @@ const MANAGED_PATHS = [
   "assets/css/memory-page.css",
   "assets/js/memory-map.js",
   "assets/css/component-design.css",
+  "assets/js/guestbook.js",
+  "_sass/layout/_about-showcase.scss",
+  "_sass/layout/_footer.scss",
   "_includes/head/custom.html",
   "_sass/layout/_running-tech.scss",
   "_config.yml",
@@ -219,7 +222,8 @@ async function handleApi(req, res, url) {
         latest_distance: cleanText(running.latest_distance, 40),
         latest_elevation: cleanText(running.latest_elevation, 40),
         latest_finish: cleanText(running.latest_finish, 40)
-      }
+      },
+      engagement: current.engagement || {}
     };
 
     if (!next.profile.name || !next.about.intro_en) throw new Error("Name and English introduction are required.");
@@ -230,6 +234,47 @@ async function handleApi(req, res, url) {
     }
     writeJson("_data/site_content.json", next);
     sendJson(res, 200, { ok: true, content: next });
+    return;
+  }
+
+  if (url.pathname === "/api/engagement/save") {
+    const current = safeReadJson("_data/site_content.json", {});
+    const guestbook = body.guestbook || {};
+    const visitor = body.visitor || {};
+    const owner = cleanText(guestbook.owner, 100);
+    const repo = cleanText(guestbook.repo, 120);
+    const issue = Math.max(1, Math.floor(Number(guestbook.issue) || 1));
+    const counterKey = cleanText(visitor.counter_key, 180);
+    if (!/^[A-Za-z0-9_.-]+$/.test(owner) || !/^[A-Za-z0-9_.-]+$/.test(repo)) {
+      throw new Error("GitHub owner and repository may only contain letters, numbers, dots, underscores, and hyphens.");
+    }
+    if (visitor.enabled !== false && !/^[A-Za-z0-9._/-]+$/.test(counterKey)) throw new Error("Visitor counter key contains unsupported characters.");
+    const next = {
+      ...(current.engagement || {}),
+      guestbook: {
+        enabled: guestbook.enabled !== false,
+        owner,
+        repo,
+        issue,
+        title_en: cleanText(guestbook.title_en, 180) || "Leave a trace.",
+        title_zh: cleanText(guestbook.title_zh, 180) || "留下你的足迹。",
+        intro_en: cleanText(guestbook.intro_en, 1200),
+        intro_zh: cleanText(guestbook.intro_zh, 1200),
+        button_en: cleanText(guestbook.button_en, 100) || "Write on GitHub",
+        button_zh: cleanText(guestbook.button_zh, 100) || "在 GitHub 留言",
+        moderation_en: cleanText(guestbook.moderation_en, 500),
+        moderation_zh: cleanText(guestbook.moderation_zh, 500),
+        max_comments: Math.max(1, Math.min(20, Math.floor(Number(guestbook.max_comments) || 6))),
+        sort: guestbook.sort === "oldest" ? "oldest" : "newest"
+      },
+      visitor: {
+        enabled: visitor.enabled !== false,
+        counter_key: counterKey
+      }
+    };
+    current.engagement = next;
+    writeJson("_data/site_content.json", current);
+    sendJson(res, 200, { ok: true, engagement: next });
     return;
   }
 

@@ -1,5 +1,7 @@
 # Yunzhi Site Studio
 
+The **Visitors & Guestbook** screen connects the homepage to a dedicated public GitHub Issue, controls bilingual headings, message order and visibility, and manages the tiny optional `hits.sh` visitor badge in the footer. Comments are moderated from GitHub; no token or password is stored by the Studio.
+
 This folder contains a local-only content editor for the Jekyll site.
 
 ## Start

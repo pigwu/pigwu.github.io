@@ -22,7 +22,8 @@
         <button class="nav-item" data-view="running"><span>04</span>跑步记录</button>
         <button class="nav-item" data-view="memory"><span>05</span>回忆地图</button>
         <button class="nav-item" data-view="design"><span>06</span>外观与组件</button>
-        <button class="nav-item" data-view="publish"><span>07</span>发布网站</button>
+        <button class="nav-item" data-view="engagement"><span>07</span>访客与留言</button>
+        <button class="nav-item" data-view="publish"><span>08</span>发布网站</button>
       </nav>
       <div class="local-badge"><i></i>仅在本机运行</div>
     </aside>
@@ -53,6 +54,7 @@
           <button class="quick-card" data-jump="running"><span>RUN LOG</span><strong>新增跑步记录</strong><small>赛事数据与多图</small></button>
           <button class="quick-card" data-jump="memory"><span>MEMORY MAP</span><strong>编辑回忆路线</strong><small>日期、故事、照片与 12 种布局</small></button>
           <button class="quick-card" data-jump="design"><span>COMPONENTS</span><strong>自定义框与线条</strong><small>头像、文本框、按钮、阴影</small></button>
+          <button class="quick-card" data-jump="engagement"><span>GUESTBOOK</span><strong>管理留言与访问数</strong><small>标题、排序、开关与 GitHub 后台</small></button>
           <button class="quick-card accent" data-jump="publish"><span>SHIP</span><strong>查看并发布</strong><small>Commit + Push 到 main</small></button>
         </div>
         <div class="status-card">
@@ -240,6 +242,45 @@
               <small>Changes appear instantly. Save when the combination feels right.</small>
             </div>
           </aside>
+        </form>
+      </section>
+
+      <section class="view" id="view-engagement">
+        <form id="engagement-form" class="editor-layout">
+          <div class="form-stack">
+            <article class="form-card">
+              <div class="card-heading"><span>GUESTBOOK</span><h2>留言板设置</h2></div>
+              <label class="engagement-toggle"><input name="guestbook_enabled" type="checkbox">在主页显示留言板</label>
+              <div class="field-grid">
+                <label>GitHub 用户名<input name="owner" required placeholder="pigwu"></label>
+                <label>仓库名<input name="repo" required placeholder="pigwu.github.io"></label>
+                <label>留言 Issue 编号<input name="issue" type="number" min="1" required></label>
+                <label>显示留言数量<input name="max_comments" type="number" min="1" max="20"></label>
+                <label>排列方式<select name="sort"><option value="newest">最新优先</option><option value="oldest">最早优先</option></select></label>
+              </div>
+              <div class="field-pair">
+                <label>标题（英文）<input name="title_en"></label>
+                <label>标题（中文）<input name="title_zh"></label>
+              </div>
+              <label>介绍（英文）<textarea name="intro_en" rows="3"></textarea></label>
+              <label>介绍（中文）<textarea name="intro_zh" rows="3"></textarea></label>
+              <div class="field-pair">
+                <label>按钮（英文）<input name="button_en"></label>
+                <label>按钮（中文）<input name="button_zh"></label>
+              </div>
+              <label>管理提示（英文）<input name="moderation_en"></label>
+              <label>管理提示（中文）<input name="moderation_zh"></label>
+              <a id="manage-guestbook" class="owner-link" target="_blank" rel="noopener">前往 GitHub 管理留言 ↗</a>
+            </article>
+            <article class="form-card compact-counter-card">
+              <div class="card-heading"><span>VISITOR COUNT</span><h2>页脚访问数</h2></div>
+              <label class="engagement-toggle"><input name="visitor_enabled" type="checkbox">在网页最底部显示小型访问计数</label>
+              <label>计数标识<input name="counter_key" placeholder="your-domain-or-project"></label>
+              <p class="field-note">使用 hits.sh 的无 Cookie 小徽标；不要填写邮箱、密码或任何秘密信息。</p>
+            </article>
+            <button class="primary-action" type="submit">保存访客与留言设置</button>
+          </div>
+          <aside class="help-card"><span>OWNER CONTROL</span><h3>管理权在你的 GitHub</h3><p>访客需要 GitHub 账号才能留言。你可以在专用 Issue 中删除不合适的评论、锁定讨论，或在这里关闭整个留言区。网页只读取公开评论，不保存登录信息。</p></aside>
         </form>
       </section>
 

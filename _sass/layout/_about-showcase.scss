@@ -20,6 +20,127 @@
   font-family: "Sora", "Avenir Next", "Segoe UI", sans-serif;
 }
 
+.guestbook-heading {
+  display: grid;
+  grid-template-columns: minmax(220px, .65fr) minmax(300px, 1fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: end;
+}
+
+.guestbook-intro p {
+  margin: 0 0 1.25rem;
+  color: var(--about-soft-ink);
+  line-height: 1.75;
+}
+
+.guestbook-write {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: .72rem 1rem;
+  border: 1px solid var(--about-cyan);
+  border-radius: 999px;
+  color: var(--about-ink);
+  font-size: .76rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-decoration: none;
+  transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+
+.guestbook-write:hover {
+  background: var(--about-cyan);
+  color: #07141d;
+  transform: translateY(-2px);
+}
+
+.guestbook-comments {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: clamp(2rem, 5vw, 4rem);
+}
+
+.guestbook-message,
+.guestbook-status {
+  min-width: 0;
+  padding: 1.25rem;
+  border: 1px solid var(--about-border);
+  background: color-mix(in srgb, var(--about-panel) 78%, transparent);
+}
+
+.guestbook-message {
+  animation: guestbook-arrive .55s ease both;
+  animation-delay: calc(var(--message-order) * 70ms);
+}
+
+.guestbook-message header,
+.guestbook-message header a {
+  display: flex;
+  align-items: center;
+}
+
+.guestbook-message header {
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.guestbook-message header a {
+  min-width: 0;
+  gap: .65rem;
+  color: var(--about-ink);
+  text-decoration: none;
+}
+
+.guestbook-message img {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+}
+
+.guestbook-message strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: .78rem;
+}
+
+.guestbook-message time {
+  flex: none;
+  color: var(--about-soft-ink);
+  font-size: .66rem;
+}
+
+.guestbook-message > p {
+  margin: 1rem 0 0;
+  overflow-wrap: anywhere;
+  color: var(--about-soft-ink);
+  font-size: .9rem;
+  line-height: 1.7;
+}
+
+.guestbook-status {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--about-soft-ink);
+}
+
+.guestbook-status p { margin: 0; }
+.guestbook-status a { color: var(--about-cyan); }
+.guestbook-moderation { margin: 1rem 0 0; color: var(--about-soft-ink); font-size: .68rem; }
+
+@keyframes guestbook-arrive {
+  from { opacity: 0; transform: translateY(14px); }
+}
+
+@media (max-width: 700px) {
+  .guestbook-heading,
+  .guestbook-comments { grid-template-columns: 1fr; }
+  .guestbook-message header { align-items: flex-start; }
+}
+
 .about-showcase *,
 .about-showcase *::before,
 .about-showcase *::after {

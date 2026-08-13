@@ -62,6 +62,19 @@
   font-size: $type-size-7;
 }
 
+.site-visitor-count {
+  display: inline-flex;
+  vertical-align: middle;
+  margin-left: .55rem;
+  opacity: .72;
+}
+
+.site-visitor-count img {
+  display: block;
+  width: 60px;
+  height: 20px;
+}
+
 .page__footer-follow {
   ul {
     margin: 0;

@@ -105,6 +105,38 @@ redirect_from:
       <a href="https://github.com/pigwu/iPhoneTrajectoryValidator" target="_blank" rel="noopener" class="project-link" data-en="View on GitHub" data-zh="在 GitHub 上查看">View on GitHub</a>
     </article>
   </section>
+
+  {% assign guestbook = site.data.site_content.engagement.guestbook %}
+  {% if guestbook.enabled %}
+  <section class="about-panel guestbook-panel reveal" id="guestbook">
+    <div class="guestbook-heading">
+      <div class="panel-heading">
+        <p data-en="OPEN CHANNEL" data-zh="开放频道">OPEN CHANNEL</p>
+        <h2 data-en="{{ guestbook.title_en | escape }}" data-zh="{{ guestbook.title_zh | escape }}">{{ guestbook.title_en }}</h2>
+      </div>
+      <div class="guestbook-intro">
+        <p data-en="{{ guestbook.intro_en | escape }}" data-zh="{{ guestbook.intro_zh | escape }}">{{ guestbook.intro_en }}</p>
+        <a class="guestbook-write" href="https://github.com/{{ guestbook.owner }}/{{ guestbook.repo }}/issues/{{ guestbook.issue }}#new_comment_field" target="_blank" rel="noopener" data-en="{{ guestbook.button_en | escape }}" data-zh="{{ guestbook.button_zh | escape }}">{{ guestbook.button_en }}</a>
+      </div>
+    </div>
+    <div
+      id="guestbook-comments"
+      class="guestbook-comments"
+      data-owner="{{ guestbook.owner | escape }}"
+      data-repo="{{ guestbook.repo | escape }}"
+      data-issue="{{ guestbook.issue }}"
+      data-limit="{{ guestbook.max_comments | default: 6 }}"
+      data-sort="{{ guestbook.sort | default: 'newest' }}"
+      data-empty-en="No messages yet. You could leave the first one."
+      data-empty-zh="还没有留言，你可以成为第一个。"
+      data-error-en="Messages could not be loaded right now. You can still open the guestbook on GitHub."
+      data-error-zh="暂时无法读取留言，你仍可前往 GitHub 打开留言板。"
+    >
+      <div class="guestbook-status" data-en="Tuning into the guestbook..." data-zh="正在读取留言……">Tuning into the guestbook...</div>
+    </div>
+    <p class="guestbook-moderation" data-en="{{ guestbook.moderation_en | escape }}" data-zh="{{ guestbook.moderation_zh | escape }}">{{ guestbook.moderation_en }}</p>
+  </section>
+  {% endif %}
 </div>
 
 <script>
@@ -129,3 +161,4 @@ redirect_from:
     });
   })();
 </script>
+{% if guestbook.enabled %}<script src="{{ '/assets/js/guestbook.js' | relative_url }}" defer></script>{% endif %}
